@@ -4,6 +4,8 @@ All notable changes to polyglot-clean-code are documented here.
 
 ## Unreleased
 
+- Expanded the Go and Java example corpus and check each diagnostic against its annotated source line.
+
 - Moved the generated airlock launcher to `scripts/restore.sh` and pointed the publisher's generator input at the new path.
 - Added the Go and Java toolchains to the Pixi environment and a compiled example corpus under `presets/ast-grep/pedantic/examples`, wired into `doit examples` so the Pedantic findings are asserted on every CI run. The published transport grows from 223.5 MiB to 477.2 MiB packed.
 

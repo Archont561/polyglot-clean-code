@@ -33,6 +33,15 @@ pixi run --locked doit policy
 echo "fix(rules): reduce a false positive" | pixi run --locked doit lint-commit
 ```
 
+## Go and Java examples
+
+The Pedantic example corpus has clean and deliberately flawed Go and Java files.
+`doit examples` compiles both languages and compares every scan result with an
+`// expect: <rule-id>` marker on the diagnostic start line. Unmarked lines must
+not produce findings. The fixtures exercise the direct print variants and empty
+Java catches; they do not establish real-world false-positive rates. Java
+`System.out.printf` is intentionally outside the current print rule.
+
 ## Releasing
 
 1. Set `version` in `pixi.toml` and move the pending `CHANGELOG.md` entries under that version.

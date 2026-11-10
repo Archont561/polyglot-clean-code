@@ -36,13 +36,6 @@ PRESETS_ROOT = ROOT / "presets"
 
 EXAMPLES = PRESETS_ROOT / "ast-grep" / "pedantic" / "examples"
 
-# `doit examples` compiles the corpus and asserts these exact counts.
-EXPECTED_EXAMPLE_FINDINGS = {
-    "pcc-s01-print-go": 2,
-    "pcc-s01-print-java": 3,
-    "pcc-s07-empty-catch-java": 1,
-}
-
 # The lint covers every tracked Python file, because Rude has no path-exclusion
 # option. The Semgrep fixtures are excluded by pathspec: they are deliberately
 # invalid targets for the shipped rules. The width is passed on the command line
@@ -228,20 +221,58 @@ def build_java_examples() -> None:
     print("Java examples compiled.")
 
 
-def check_example_findings() -> None:
-    """Assert the Pedantic Go and Java rules find exactly the expected examples."""
+def expected_example_findings() -> Counter[tuple[str, int, str]]:
+    """Collect the expected diagnostic locations from source comments."""
+    expected: Counter[tuple[str, int, str]] = Counter()
+    for extension in ("*.go", "*.java"):
+        for path in EXAMPLES.rglob(extension):
+            lines = path.read_text(encoding="utf-8").splitlines()
+            for number, line in enumerate(lines, 1):
+                if "// expect: " in line:
+                    rule = line.split("// expect: ", 1)[1].strip()
+                    expected[(str(path), number, rule)] += 1
+    if not expected:
+        raise RuntimeError("The example corpus has no expected-finding markers")
+    return expected
+
+
+def scan_example_findings() -> Counter[tuple[str, int, str]]:
+    """Run the Pedantic scan and collect diagnostic locations."""
     config = str(PRESETS_ROOT / "ast-grep" / "pedantic" / "sgconfig.yml")
     scan = _run(
         ["ast-grep", "scan", "-c", config, "--json", str(EXAMPLES)],
         capture=True,
         check=False,
     )
-    found = dict(Counter(item["ruleId"] for item in json.loads(scan.stdout or "[]")))
-    if found != EXPECTED_EXAMPLE_FINDINGS:
+    # ast-grep returns 1 when error-severity findings are present.
+    if scan.returncode not in (0, 1):
+        raise RuntimeError(f"Example scan failed: {scan.stderr}")
+    try:
+        findings = json.loads(scan.stdout)
+    except json.JSONDecodeError as error:
         raise RuntimeError(
-            f"Expected {EXPECTED_EXAMPLE_FINDINGS}, found {found} in the example corpus"
+            f"Example scan produced invalid JSON: {scan.stderr}"
+        ) from error
+    return Counter(
+        (
+            str(Path(item["file"]).resolve()),
+            item["range"]["start"]["line"] + 1,
+            item["ruleId"],
         )
-    print(f"Example corpus produced the expected findings: {found}")
+        for item in findings
+    )
+
+
+def check_example_findings() -> None:
+    """Compare every scan finding with the marker on its starting source line."""
+    expected = expected_example_findings()
+    found = scan_example_findings()
+    if found != expected:
+        raise RuntimeError(
+            f"Example findings differ: missing={dict(expected - found)}, "
+            f"unexpected={dict(found - expected)}"
+        )
+    print(f"Example corpus produced all {sum(found.values())} expected findings.")
 
 
 def workspace_version() -> str:
