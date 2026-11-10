@@ -18,9 +18,20 @@ pixi run --locked doit install-hooks
 6. Verify with `pixi run --locked doit ci`.
 7. Close the task with its final summary and verification notes.
 
+## Offline sandbox
+
+`pixi-sandbox.toml` reviews the plan that publishes `sandbox/developer-linux-64`. Change the plan there, then regenerate the owned files and commit them together:
+
+```sh
+pixi-sandbox init
+pixi-sandbox init --check
+```
+
+`publish-sandbox.yml`, `relock.yml`, and `restore.sh` belong to the generator. A direct edit is drift, and the next `init` overwrites it. See [`docs/guides/offline-sandbox.md`](docs/guides/offline-sandbox.md).
+
 ## Commit messages
 
-Convco accepts `feat`, `fix`, `perf`, `docs`, and `revert` as visible types. Internal types are hidden from the changelog. Use one of the scopes in `.versionrc`: `rules`, `presets`, `config`, `ci`, `deps`, `docs`, `tests`, `release`, or `automation`.
+Convco accepts `feat`, `fix`, `perf`, `docs`, and `revert` as visible types. Internal types are hidden from the changelog. Use one of the scopes in `.versionrc`: `rules`, `presets`, `config`, `ci`, `deps`, `docs`, `lock`, `tests`, `release`, or `automation`. `lock` belongs to the generated relock bot.
 
 ```text
 feat(rules): add an immutable-reference rule

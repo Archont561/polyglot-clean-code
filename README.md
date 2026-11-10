@@ -43,7 +43,7 @@ The maintained documents live under `docs/`. Start with [`docs/README.md`](docs/
 | --- | --- |
 | Concepts | [`rule-register.md`](docs/concepts/rule-register.md), [`rule-contract.md`](docs/concepts/rule-contract.md), [`engine-limits.md`](docs/concepts/engine-limits.md) |
 | Architecture | [`overview.md`](docs/architecture/overview.md), [`scan-findings.md`](docs/architecture/scan-findings.md) |
-| Guides | [`development-setup.md`](docs/guides/development-setup.md), [`adopting-presets.md`](docs/guides/adopting-presets.md), [`running-the-checks.md`](docs/guides/running-the-checks.md) |
+| Guides | [`development-setup.md`](docs/guides/development-setup.md), [`adopting-presets.md`](docs/guides/adopting-presets.md), [`running-the-checks.md`](docs/guides/running-the-checks.md), [`offline-sandbox.md`](docs/guides/offline-sandbox.md) |
 | Reference | [`rule-matrix.md`](docs/reference/rule-matrix.md), [`repository-layout.md`](docs/reference/repository-layout.md), [`pixi-tasks.md`](docs/reference/pixi-tasks.md) |
 | Development | [`documentation.md`](docs/development/documentation.md) |
 
@@ -62,6 +62,18 @@ pixi install
 pixi run --locked bun install --frozen-lockfile
 pixi run --locked doit ci
 ```
+
+## Offline sandbox
+
+`pixi-sandbox.toml` reviews the publish plan and the three generated files act on it: `.github/workflows/publish-sandbox.yml` packs the locked environment, verifies the transport, and pushes the `sandbox/developer-linux-64` orphan branch; `.github/workflows/relock.yml` refreshes `pixi.lock` for a manifest edit made without network access; and `restore.sh` restores the branch on an airlocked host. The bundle covers `linux-64` and the `default` environment.
+
+```sh
+gh workflow run publish-sandbox.yml --ref main
+bash restore.sh
+pixi install --frozen --offline
+```
+
+The publisher carries `contents: read` at the workflow level and `contents: write` only on the publishing job. A hand edit to a generated file is drift, not a fix: run `pixi-sandbox init` and commit its output. See [`docs/guides/offline-sandbox.md`](docs/guides/offline-sandbox.md).
 
 ## Dev loop
 

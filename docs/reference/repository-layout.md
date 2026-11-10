@@ -13,9 +13,11 @@ polyglot-clean-code/
 │   ├── config.yml
 │   └── tasks/                    # Rule register and open dev-loop work
 ├── docs/                         # Architecture, concepts, guides, and reference
-├── .github/                      # CI, release, issue templates, and PR template
+├── .github/                      # CI, release, sandbox publisher, and issue templates
 ├── pixi.toml / pixi.lock         # Environment of record
+├── pixi-sandbox.toml             # Reviewed publish plan for the offline sandbox
+├── restore.sh                    # Generated airlock launcher
 └── package.json / bun.lock       # Developer CLIs
 ```
 
-There is no `presets/catalogue.yml`, no root `scripts/`, no root `tests/`, no `automation/contracts.py`, no README template, and no Python test tree. Root `.alint.yml` and `.vale.ini` dogfood the fresh repository policy. The backlog tasks are the reviewed rule register. The shipped Alint presets remain unchanged product configs; their historical `docs/reference/rules.md` and `automation/fixtures/` checks describe a full consumer harness rather than this scaffold.
+There is no `presets/catalogue.yml`, no root `tests/`, no `automation/contracts.py`, no README template, and no Python test tree. The only root shell file is the generated `restore.sh` launcher, which Pixi Sandbox owns; `publish-sandbox.yml`, `relock.yml`, and `restore.sh` are regenerated with `pixi-sandbox init`, and `pixi-sandbox.toml` stays hand-reviewed. Root `.alint.yml` and `.vale.ini` dogfood the fresh repository policy. The backlog tasks are the reviewed rule register. The shipped Alint presets remain unchanged product configs; their historical `docs/reference/rules.md` and `automation/fixtures/` checks describe a full consumer harness rather than this scaffold.

@@ -15,6 +15,7 @@ Start with the [root README](../README.md) for the quick start and the documenta
 - [Development setup](guides/development-setup.md)
 - [Adopting presets](guides/adopting-presets.md)
 - [Running the checks](guides/running-the-checks.md)
+- [Offline sandbox](guides/offline-sandbox.md)
 
 ## Reference
 
