@@ -1,0 +1,28 @@
+# Reviewed publish plan for the offline sandbox.
+#
+# `pixi-sandbox plan` reads this file, the publisher generated from it, and the launcher at
+# `restore.sh`. The generated files carry the `pixi-sandbox-version` stamp; regenerate them with
+# `pixi-sandbox init` instead of editing them by hand. This file is reviewed data and is never
+# rewritten by the generator.
+#
+# One bundle, one platform: the developer environment in `pixi.toml` is Linux-only in this
+# workspace, so the publisher archives `sandbox/developer-linux-64` and nothing else.
+schema = 1
+branch_prefix = "sandbox"
+cargo_vendor = false
+
+[workflow]
+# Least privilege for the generated publisher: `contents: read` at the workflow level and
+# `contents: write` only on the job that force-pushes the transport branch. This is the shape
+# PCC-R05 asks of every workflow in this repository.
+permissions = true
+# Same Pixi pin as `.github/workflows/ci.yml`, so the publisher and CI solve with one binary.
+pixi_version = "v0.84.1"
+# The publisher runs `setup-pixi` with `run-install: false` and installs the environment itself,
+# so a cache keyed on `pixi.lock` would hold no environment. Off is the honest setting.
+setup_pixi_cache = false
+
+[[bundle]]
+name = "developer"
+environments = ["default"]
+platforms = ["linux-64"]
