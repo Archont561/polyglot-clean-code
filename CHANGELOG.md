@@ -24,4 +24,4 @@ All notable changes to polyglot-clean-code are documented here.
 - Added `doit presets-archive`, which packs every preset tree into a byte-reproducible tarball beside a `SHA256SUMS-0.1.0.txt` file.
 - Added a release publish job that attaches the preset archives, the checksum file, and the rendered Convco changelog to the GitHub Release for a `v*` tag.
 - Published the first release as `v0.1.0`.
-- Added `rude` and `rude-clean-code` to the Pixi environment with a `pyproject.toml` for Rude configuration, and wired `doit lint-python` into the policy chain so `automation/` is checked for Clean Code limits.
+- Added `rude` and `rude-clean-code` to the Pixi environment and wired `doit lint-python` into the policy chain, so `automation/` is checked against the Clean Code limits at a line width of 88.

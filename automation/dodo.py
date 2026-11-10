@@ -33,8 +33,11 @@ RELEASE_ARCHIVES = ("alint", "vale", "ast-grep", "semgrep")
 PRESETS_ROOT = ROOT / "presets"
 
 # The Semgrep fixtures are deliberately invalid targets for the shipped rules, so the
-# Python lint scopes to the hand-written automation code instead of the whole tree.
+# Python lint scopes to the hand-written automation code instead of the whole tree. The
+# width is passed here because this repository ships no `pyproject.toml`; `.gitignore`
+# keeps Python project metadata out on purpose.
 PYTHON_TARGETS = ("automation",)
+PYTHON_LINE_LENGTH = "88"
 
 VALE_TARGETS = (
     "README.md",
@@ -397,9 +400,10 @@ def task_build_release() -> dict[str, Any]:
 
 def task_lint_python() -> dict[str, Any]:
     """Lint the automation code with Rude and the Clean Code plugin."""
+    command = ["rude", "check", "--max-line-length", PYTHON_LINE_LENGTH]
     return {
         "basename": "lint-python",
-        "actions": [["rude", "check", *PYTHON_TARGETS]],
+        "actions": [[*command, *PYTHON_TARGETS]],
     }
 
 
