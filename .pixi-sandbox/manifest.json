@@ -1,0 +1,886 @@
+{
+  "schema": 5,
+  "tool": {
+    "name": "pixi-sandbox",
+    "version": "0.9.0"
+  },
+  "created_at": "2026-11-10T20:39:10Z",
+  "platform": "linux-64",
+  "shard_limit_bytes": 99614720,
+  "source": {
+    "commit": "99d92bf",
+    "lock_sha256": "cda0a4189960e17bc5eb625e8e4306cd3eeae3caa5510686ca30bc2990eebe8c"
+  },
+  "tools": {
+    "pixi": {
+      "version": "0.84.1",
+      "pinned_sha256": "dea64d690020095e70a7194f48a520fb31cf70daef76d8ba38bbcf874b8c84a2",
+      "linkage": "static",
+      "size_bytes": 72592160,
+      "path": "tools/linux-64/pixi"
+    },
+    "pixi-sandbox": {
+      "version": "0.9.0",
+      "pinned_sha256": "d42cf670d32bcc393745128c5b0f63a95ad88dc3064f8f158b5fa7cb31f44498",
+      "linkage": "static",
+      "size_bytes": 7602184,
+      "path": "tools/linux-64/pixi-sandbox"
+    }
+  },
+  "envs": {
+    "default": {
+      "platform": "linux-64",
+      "pack_path": ".pixi-sandbox/envs/default/pack",
+      "packed_size_bytes": 500381254,
+      "unpacked_size_bytes": 1604965956,
+      "pixi_environment_fingerprint": "9a05b757eeebbf67",
+      "blobs": [
+        {
+          "path": "envs/default/pack/channel/linux-64/_openmp_mutex-4.5-20_gnu.conda",
+          "size": 28948,
+          "sha256": "1dd3fffd892081df9726d7eb7e0dea6198962ba775bd88842135a4ddb4deb3c9"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/actionlint-1.7.12-h8bc977c_0.conda",
+          "size": 2131192,
+          "sha256": "1fff5ee0d83045ef90104ca83f52b4c44feb4ab2036fc7903fe9733f50721209"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/alsa-lib-1.2.16.1-h7cc23a3_1.conda",
+          "size": 594986,
+          "sha256": "a35bddac04be093769e81814465a537961c6ed0f8d3cc23d6dce6ecdfaf71821"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/ast-grep-0.51.1-he17df78_0.conda",
+          "size": 6989220,
+          "sha256": "6dfc3e4006d8ee87c5ae367602e3d8e0a77aacc3dd2300a13456d7437cf45387"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/bun-1.4.2-pl5321h3d79828_1.conda",
+          "size": 29040670,
+          "sha256": "3587894fab840095ab2509636d85061d63f3478a6baba61aaa6f3abf226cda2b"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/bzip2-1.0.8-hda65f42_10.conda",
+          "size": 257808,
+          "sha256": "1a0d382c515ebf55f8ee1f38c8b81bc95af5c2acc42ad53b66bc5df932032f96"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/c-ares-1.34.9-hebe6cf0_0.conda",
+          "size": 233759,
+          "sha256": "bd95dd25b80b5c4faf5349542377bf89b2794e23d0f7aa7f1c431e4f3b633f3c"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/cairo-1.18.6-h9f5ca07_2.conda",
+          "size": 1005508,
+          "sha256": "168d9e5486a06b96eafe59cfedfd76f9631f2bbcab133eed6cca2431467208b6"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/convco-0.7.2-hf473dc7_0.conda",
+          "size": 2223315,
+          "sha256": "e6b3e61618a1fc545dd2c8401606fbb620aee978b63bcede7a0b8d3baa64b634"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/fontconfig-2.18.3-h4db4eae_1.conda",
+          "size": 296288,
+          "sha256": "5a3eb10b18a97223ab06b3a7f0d7f56658db2f2800e2f2af95836fe3bf55ba63"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/giflib-6.1.3-hebe6cf0_2.conda",
+          "size": 86117,
+          "sha256": "917c3a622c3870f822d25a882f1856e757d91e31a3dd52a499849a392ca865d2"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/git-2.56.0-pl5440h3795e67_0.conda",
+          "size": 11920563,
+          "sha256": "d5654608f2bed18580fa05e22d80093fc746cc70dea1d6a208e7a9f65b1888e0"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/go-1.27.3-nocgo_h8a70693_0.conda",
+          "size": 59985077,
+          "sha256": "3545be5b5a766e3dc45d6980db53834c5755f0cae15c662d3ea8bdce9e53d63f"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/graphite2-1.3.15-h54a6638_1.conda",
+          "size": 102835,
+          "sha256": "7fa3b6a9c081fa3e545573152a788d061a0a0ba57df7251cc0f4f75225fc93e7"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/hdrhistogram-c-0.11.10-h421ea60_0.conda",
+          "size": 62058,
+          "sha256": "3f07b4ef80d1bbef4329f880f65faf16c0a185d00e765aec1e8759d8490d87c3"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/icu-79.1-py314hb486520_0.conda",
+          "size": 14540104,
+          "sha256": "9a339bedff62e63bb949383edc656956abef1f23663c879f7fcb66a004a18ef9"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/keyutils-1.6.3-h7cc23a3_1.conda",
+          "size": 135295,
+          "sha256": "dd053c96dcb0dcfd59422aefea9d2fe937a190167f34fba7893ec1e10a7e8963"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/krb5-1.22.2-hbc21106_2.conda",
+          "size": 1394333,
+          "sha256": "2a5c38c85e63df84c4e69ee71439841ce570d259ae3060627bb9a49a938d66f4"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/lcms2-2.20-h9073bf1_0.conda",
+          "size": 254943,
+          "sha256": "f19bd0697093c5ba8b459f02dd3d21c5d953dc49db185fdf7a159153f7e3b7fd"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda",
+          "size": 742109,
+          "sha256": "901649b1edbe841fd4ee7e2d491a05184ed540eb01cdae506872f344babc1d28"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/lefthook-2.2.2-hfc2019e_0.conda",
+          "size": 5496926,
+          "sha256": "5c3507ee8cd93b679349dd92b3d99068d3b7b9f96d071da7783cbaf4098c5799"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/lerc-4.3.0-he78707d_0.conda",
+          "size": 269911,
+          "sha256": "467aa52e9ba7a438f17944909e1904399eab863778ab501cf271e30cfa4bc6f3"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libbrotlicommon-1.2.1-h39a168f_0.conda",
+          "size": 80370,
+          "sha256": "8eccfbfdb8ecba32eabfb6ee92f70e818e5f3a35a01c507f7b6bd56e00e4c617"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libbrotlidec-1.2.1-ha411449_0.conda",
+          "size": 34703,
+          "sha256": "4b4bda6f70ad511bdff95fdd958dca74b6e0534ae335ddcb1d8c6569774d2429"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libbrotlienc-1.2.1-h018ffa1_0.conda",
+          "size": 298098,
+          "sha256": "61974cf9bb07115ed6725dacf83d0d985443d78dd123cc4f2758856fda5376ec"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libcups-2.3.3-h7a8fb5f_6.conda",
+          "size": 4518030,
+          "sha256": "205c4f19550f3647832ec44e35e6d93c8c206782bdd620c1d7cf66237580ff9c"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libcurl-8.23.0-ha042cf0_0.conda",
+          "size": 505683,
+          "sha256": "d2db14d80efb4f2e76e76561c633f1767f7543987f2bcb54a067a9d264d432ab"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libdeflate-1.25-hd45a770_1.conda",
+          "size": 73710,
+          "sha256": "82e134c8a08b1eed9a2ed8ab578b89aa1730dcde3dea8dd87645ed0637878e54"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libedit-3.1.20260512-pl5321h373387f_0.conda",
+          "size": 135877,
+          "sha256": "45301f14f4eb66da57cfaf2d265f3eeee73f8b07e99614ee3afc5b26eea91126"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libev-4.33-h280c20c_3.conda",
+          "size": 43220,
+          "sha256": "e4418f68d01a6307c4431b585c71b584f40189877364e542ee87deb777f5e85b"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libexpat-2.9.0-hd2095e1_0.conda",
+          "size": 78894,
+          "sha256": "7b930a8b6bc6553cb754b4977a11f9c862c719a652fc2d128d89270992ce8beb"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libffi-3.7.0-h81df57d_1.conda",
+          "size": 68004,
+          "sha256": "c8c7583ef063bc3c430f1d48298e5ad24f796a35c22ed5b14183325825a61106"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libfreetype-2.14.3-ha770c72_2.conda",
+          "size": 8407,
+          "sha256": "fb12ecb46c30d18d928c0e8fc346ab13b5f6fc8a9cacae4f2f4bb188782586f5"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libfreetype6-2.14.3-h5e6c136_2.conda",
+          "size": 387671,
+          "sha256": "ec607dd5445dd17ff6bf8b7fe6832e5504c226dd91d3aaea7ba83569808b0ce4"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libgcc-16.2.0-ha9f2e26_7.conda",
+          "size": 1058444,
+          "sha256": "e031634c3a928f9594eba868bc46ef5230d6571a364a0c63215b06c4563bfcea"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libglib-2.90.1-h569388d_1.conda",
+          "size": 4856046,
+          "sha256": "463a24904fd83a3223c9f292211975bba405838ff32e6179df04a3cca202a2b3"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libgomp-16.2.0-he0feb66_7.conda",
+          "size": 640566,
+          "sha256": "92a0bb350c7be6a4eedcb4e111c60aefd176018e6b1c009a6e025dbe9bbcd758"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libharfbuzz-15.1.0-h3ca84f1_0.conda",
+          "size": 1654845,
+          "sha256": "ffc72860ee882d9e926e80ec23ffaeeedc329561a192615a547f0bd542a675d6"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libhwy-1.4.0-h57c4cff_2.conda",
+          "size": 1462974,
+          "sha256": "06ab9eb5db305b29f0f671dced4a43eca4b0c1990351bad963d25341057f74d4"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libiconv-1.18-h0cb94f2_3.conda",
+          "size": 789471,
+          "sha256": "f943117edb9cd4d9c61cc972eee5a34291dc55ea7a6e9e38da104995841cbcb6"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libjpeg-turbo-3.2.1-h7cc23a3_0.conda",
+          "size": 653905,
+          "sha256": "2f7d092a3212884825c43814575225fde8a9190611bc0e38c55e0dae45e329ac"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/liblzma-5.8.3-hb03c661_1.conda",
+          "size": 112995,
+          "sha256": "9787df8c22a59c9a70d3e5a10db9ad663485e75e9ccc3f09bd092cb7b95e0dab"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libnghttp2-1.71.0-hc5e5977_0.conda",
+          "size": 822778,
+          "sha256": "a4386712ad6d5bc18943b198407c39e2f8ae2fa9c6418bb37bba96f1d382f109"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libnsl-2.0.1-hb9d3cd8_1.conda",
+          "size": 33731,
+          "sha256": "927fe72b054277cde6cb82597d0fcf6baf127dcbce2e0a9d8925a68f1265eef5"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libpng-1.6.59-h922cc85_0.conda",
+          "size": 316872,
+          "sha256": "c7381be8ef713501f6cd2f5ad473e401f2edeaec3c46788296b8dbf0de165e15"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libpsl-0.23.1-h7fe8442_2.conda",
+          "size": 72612,
+          "sha256": "68d48a7cd3e0fc8d7980dd13467d5a2dc937c09f68ccee53b9b0c5a4f569db58"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libpython-3.12.16-ha57cdbe_0_cpython.conda",
+          "size": 8763999,
+          "sha256": "71126cad347dfd1be645b1207baa3729e64f055edb5f785dadeb84872480a015"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libsqlite-3.54.1-hf739112_1.conda",
+          "size": 984977,
+          "sha256": "4166191b6e9322e8ea124400b7f063aba317ef46d4873f82ef472734f91ddd8c"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libssh2-1.11.1-h6154650_1.conda",
+          "size": 306045,
+          "sha256": "7e463000fa1cba3f3a6597b776f6ab301d425a96e3bc20d0d9d76a3b9f237aa3"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libstdcxx-16.2.0-h934c35e_7.conda",
+          "size": 6615436,
+          "sha256": "fa7018298629fc429971fffd6ecba3d27a7b02e4e890d6a93ea01ffebe8cb745"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libtiff-4.7.2-hcc2c06a_1.conda",
+          "size": 459753,
+          "sha256": "10e125da82ca93e09191e66e5a94d566b2cf8d4024e2a0db3a9114297447e0d9"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libuuid-2.42.4-hcfc3c73_1.conda",
+          "size": 36134,
+          "sha256": "0e2e8f2daa9306e67f046e31092d637431d8cf0a26c407ab22401d108c2d4631"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libwebp-base-1.6.0-hd42ef1d_1.conda",
+          "size": 428430,
+          "sha256": "8415001414f488c85b72b9d8cc2071dfb3981a47bc3c8eb56ef91a57d12eae7f"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libxcb-1.17.0-hb83e432_3.conda",
+          "size": 398900,
+          "sha256": "38021f35547021762c04860d1c9f2d3186b83e090e5f1773216045de06cf10cc"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libxcrypt-4.4.38-h280c20c_0.conda",
+          "size": 101957,
+          "sha256": "f7e9292dd219a6435bbb1223da9586c3e70d66d169c5a92f08db3f2127df04e9"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/libzlib-1.3.2-h25fd6f3_3.conda",
+          "size": 63713,
+          "sha256": "eb8a0db0aa570124f7d2a93d7c7f596e3390df5e047818d873baad32985fc736"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/ls-hpack-2.3.5-hebe6cf0_1.conda",
+          "size": 102365,
+          "sha256": "bba8feffbbb72b2a6a76f59652d1a929472a6da669a29170fda378b5214bac37"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/ncurses-6.6-hdb14827_1.conda",
+          "size": 911196,
+          "sha256": "5d46557214ed184381dafe835b7c94a474a1c3b307a08a250b1ea4779b44ffb3"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/openjdk-21.0.10-h1602c4f_22.conda",
+          "size": 186415721,
+          "sha256": "b47965a90c9682300f393c3dc6d0c2fde918b62a318449da9c940ac9b6ec2bc0",
+          "parts": [
+            {
+              "path": "envs/default/pack/channel/linux-64/openjdk-21.0.10-h1602c4f_22.conda.part000",
+              "size": 99614720,
+              "sha256": "572bbbae4ccd55c6dbcf7a6a56b4519742d4f4728ccf9e2f85a95ab85c4a1cb7"
+            },
+            {
+              "path": "envs/default/pack/channel/linux-64/openjdk-21.0.10-h1602c4f_22.conda.part001",
+              "size": 86801001,
+              "sha256": "a7a8c079baea231c58e92825038571177ceca04c3a27cafbca557ea3ae400045"
+            }
+          ]
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/openssl-3.6.5-h781a0a9_0.conda",
+          "size": 3195299,
+          "sha256": "9c1533f1cf784f0e250919c0c9762d0b0e6bc727a79290ffb7cea1ceca1d038c"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/pcre2-10.47-h8b3dc9c_1.conda",
+          "size": 1218833,
+          "sha256": "9ebb10a4eb3be51ae67d85c679f5a7a50cb040ed25c783e6331a225ea09991d4"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/perl-5.44.0-1_h7cc23a3_perl5.conda",
+          "size": 11438995,
+          "sha256": "43afad1c27c24ccc40d98461ab7e1648ccac876421a8783167861ae19c4edc83"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/pixman-0.46.4-h54a6638_3.conda",
+          "size": 376704,
+          "sha256": "829d8288764282de5a9f7b9169acb75cc7dc0b6c3fe2535cfe87dea3436bbc5d"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/pthread-stubs-0.4-h7cc23a3_1004.conda",
+          "size": 9630,
+          "sha256": "4a44fd00ea73b79ca2c89b0727b9ccf61c506ead71e67a9abfa4c590042b5a4a"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/python-3.12.16-h5f976f7_0_cpython.conda",
+          "size": 22997826,
+          "sha256": "a40188b47c3995bc42a33820be4d780af5c11cc295409413fb925549f0abfe92"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/readline-8.3-hd6e31c0_1.conda",
+          "size": 348899,
+          "sha256": "01b3fe073a66e321970d09e04b388708f8cbdca5cdfbfcb7c9eeb470ad10383d"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/repodata.json",
+          "size": 57434,
+          "sha256": "f848dd25fff1092bf132bc57eaac854e14048de9082c14155371be3dd786c68f"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/shellcheck-0.11.0-hfc2019e_2.conda",
+          "size": 2973063,
+          "sha256": "0f2a8f55cd54eefdc428cb9699d14725502e4a61d9aecb6f3bc2f22e3bb7ba96"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda",
+          "size": 3566806,
+          "sha256": "a1a241d172c1ccab067ba245206dd048bc3c2d1b84504b53c9468e99adfc16a1"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/vale-3.26.0-hee9eb32_0.conda",
+          "size": 11903180,
+          "sha256": "524506b920c244f1645bc9bcf6dfc360f3a4de7e3a95a051c933e86afa6b26eb"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libice-1.1.2-h280c20c_0.conda",
+          "size": 62517,
+          "sha256": "49b532d1df875c6749d9078b56a76f3f5db49a5abe0ca620b593ed474ef0ebf1"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libsm-1.2.6-h0d788c3_1.conda",
+          "size": 30739,
+          "sha256": "ef907caee0665cf3b0f775602cc50e388e3bade8ce22ecade0873ff26604b2fd"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libx11-1.8.14-hb83e432_0.conda",
+          "size": 846774,
+          "sha256": "1815dc9900bf3a4678caeb343bccbbc74cd5e5a5ff3f6e0a2c01c5e19cd9d30b"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda",
+          "size": 18793,
+          "sha256": "3ec065b94554dc48a4ca582a960a5484bc166b26e83ce0954653e08d17e8bd53"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda",
+          "size": 22606,
+          "sha256": "8a095df9bc1d2e50f2504ce8858a047ae29ea634aad6cc0b43298c63361da6d9"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxext-1.3.7-h7cc23a3_1.conda",
+          "size": 53124,
+          "sha256": "aa9bbe8b278aacc194e280ff5037f9f9a1f2c5b33ed97de8e7f01cfbe90dda43"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxfixes-6.0.2-h7cc23a3_1.conda",
+          "size": 21440,
+          "sha256": "aec84f554fc897bf4085c7bc8b8f0740e4c224e13bca3cc51c93e7699d56f83a"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxi-1.8.4-h7cc23a3_0.conda",
+          "size": 49659,
+          "sha256": "bb12543188be23b6e16e478d8b550d4e60bb52dc9c6f0667a5c865ceb3e7a881"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxrandr-1.5.5-h7cc23a3_1.conda",
+          "size": 31106,
+          "sha256": "05a7f25d7f7f5cd32b27a019233ece97167fd8ade255bc13a0e49e53387f4c30"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxrender-0.9.13-h7cc23a3_0.conda",
+          "size": 34604,
+          "sha256": "008d610d6ec1d021ad678024afd5dcf534ff84d9c1e9d2877ff36d112c89896f"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxt-1.3.1-h7cc23a3_1.conda",
+          "size": 384261,
+          "sha256": "dff31677674be86f98ee929a796edf2cf7c78bf38610b122a63af9af752d5bf7"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/xorg-libxtst-1.2.6-h7cc23a3_0.conda",
+          "size": 34918,
+          "sha256": "9d8e7a2db860da3f362284650b447a96688b834bdb3122707b04bae512a1a178"
+        },
+        {
+          "path": "envs/default/pack/channel/linux-64/zstd-1.5.7-hb78ec9c_7.conda",
+          "size": 601301,
+          "sha256": "47d682b9f6d6ec9eb1a6e6c3e75ea6273e899e78fb7fc59f81d39745009fbc60"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/ca-certificates-2026.10.23-hbd8a1cb_0.conda",
+          "size": 130057,
+          "sha256": "95619b9c1184be7175392eeb0ee7eeb5ccf25d280951f4225f2d62e725790be3"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/font-ttf-dejavu-sans-mono-2.37-hab24e00_0.tar.bz2",
+          "size": 397370,
+          "sha256": "58d7f40d2940dd0a8aa28651239adbf5613254df0f75789919c4e6762054403b"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/font-ttf-inconsolata-3.000-h77eed37_0.tar.bz2",
+          "size": 96530,
+          "sha256": "c52a29fdac682c20d252facc50f01e7c2e7ceac52aa9817aaf0bb83f7559ec5c"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/font-ttf-source-code-pro-2.038-h77eed37_0.tar.bz2",
+          "size": 700814,
+          "sha256": "00925c8c055a2275614b4d983e1df637245e19058d79fc7dd1a93b8d9fb4b139"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/font-ttf-ubuntu-0.83-h77eed37_3.conda",
+          "size": 1620504,
+          "sha256": "2821ec1dc454bd8b9a31d0ed22a7ce22422c0aef163c59f49dfdf915d0f0ca14"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/fonts-conda-ecosystem-1-0.tar.bz2",
+          "size": 3667,
+          "sha256": "a997f2f1921bb9c9d76e6fa2f6b408b7fa549edd349a77639c9fe7a23ea93e61"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/fonts-conda-forge-1-hc364b38_1.conda",
+          "size": 4059,
+          "sha256": "54eea8469786bc2291cc40bca5f46438d3e062a399e8f53f013b6a9f50e98333"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/repodata.json",
+          "size": 4603,
+          "sha256": "787449ca5b5ba5966edc894bc36474ba32428c5ca4f30d22140bec335f0d8841"
+        },
+        {
+          "path": "envs/default/pack/channel/noarch/tzdata-2026e-h5d301ff_0.conda",
+          "size": 119208,
+          "sha256": "2b7ca858879f183ce2dcc65b300f48a0133d5430550f35b23d80d405a0788dbf"
+        },
+        {
+          "path": "envs/default/pack/environment.yml",
+          "size": 2762,
+          "sha256": "cfc13137dadc3607b817afecf27bf518d205c193657b61f5319e381911086cc9"
+        },
+        {
+          "path": "envs/default/pack/files.json",
+          "size": 4610656,
+          "sha256": "a983fc8c7f55b1a5c37ef0e817cb4a82125a04d9882964effc183e5a48fdbb41"
+        },
+        {
+          "path": "envs/default/pack/pixi-pack.json",
+          "size": 46,
+          "sha256": "193554675661d32afa441686ae8ad9379012d6d1a4088f29c4937b3c00bcd629"
+        },
+        {
+          "path": "envs/default/pack/pypi/alint-0.22.0-py3-none-manylinux_2_17_x86_64.musllinux_1_2_x86_64.whl",
+          "size": 8749265,
+          "sha256": "35bd3c88b94a35bf522abeea8ae334d6327018a5f71c052109915a42ac536a95"
+        },
+        {
+          "path": "envs/default/pack/pypi/annotated_types-0.8.0-py3-none-any.whl",
+          "size": 13427,
+          "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0"
+        },
+        {
+          "path": "envs/default/pack/pypi/anyio-4.16.0-py3-none-any.whl",
+          "size": 134521,
+          "sha256": "c66ae634e0b8228396b801741beb3294326d4b6102f7bba4041c0dfb58c29026"
+        },
+        {
+          "path": "envs/default/pack/pypi/attrs-26.1.0-py3-none-any.whl",
+          "size": 67548,
+          "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+        },
+        {
+          "path": "envs/default/pack/pypi/boltons-21.0.0-py2.py3-none-any.whl",
+          "size": 193723,
+          "sha256": "b9bb7b58b2b420bbe11a6025fdef6d3e5edc9f76a42fb467afe7ca212ef9948b"
+        },
+        {
+          "path": "envs/default/pack/pypi/bracex-3.2.2-py3-none-any.whl",
+          "size": 14151,
+          "sha256": "284d59c4656e5a0421ff691402074bd5847049d50410535764a2c522a47095bc"
+        },
+        {
+          "path": "envs/default/pack/pypi/certifi-2026.10.23-py3-none-any.whl",
+          "size": 135082,
+          "sha256": "e9b54de76e530bb6cf0ccd036787103acb58fd42ba930ea8bf948ddbaa2f61d1"
+        },
+        {
+          "path": "envs/default/pack/pypi/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "size": 221822,
+          "sha256": "c1453022f490d2459a11819d83ad1d586e9ff65a12ac3e705ffebd46d3685dcf"
+        },
+        {
+          "path": "envs/default/pack/pypi/charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "size": 257601,
+          "sha256": "3d31298449090ab8d47b7b1b2a555ff73cac7ed438a08b7ac160980c7ebed649"
+        },
+        {
+          "path": "envs/default/pack/pypi/click-8.1.8-py3-none-any.whl",
+          "size": 98188,
+          "sha256": "63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2"
+        },
+        {
+          "path": "envs/default/pack/pypi/click_option_group-0.5.9-py3-none-any.whl",
+          "size": 11553,
+          "sha256": "ad2599248bd373e2e19bec5407967c3eec1d0d4fc4a5e77b08a0481e75991080"
+        },
+        {
+          "path": "envs/default/pack/pypi/colorama-0.4.6-py2.py3-none-any.whl",
+          "size": 25335,
+          "sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
+        },
+        {
+          "path": "envs/default/pack/pypi/cryptography-50.0.2-cp311-abi3-manylinux_2_28_x86_64.whl",
+          "size": 4753050,
+          "sha256": "4061c0079120205fb760c58acab6443e217307dcf05e3702cf970e0689972856"
+        },
+        {
+          "path": "envs/default/pack/pypi/doit-0.37.0-py3-none-any.whl",
+          "size": 85780,
+          "sha256": "a9f181566aa90faac515e276f85e6526019554ed7e13c12cf9dc094ffecf3e1b"
+        },
+        {
+          "path": "envs/default/pack/pypi/exceptiongroup-1.2.2-py3-none-any.whl",
+          "size": 16453,
+          "sha256": "3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b"
+        },
+        {
+          "path": "envs/default/pack/pypi/face-26.0.1-py3-none-any.whl",
+          "size": 57572,
+          "sha256": "ab0a83c37c9789dce658a67a9a80eafaa113c9ec37c5a9d950ff5480542a062d"
+        },
+        {
+          "path": "envs/default/pack/pypi/glom-22.1.0-py2.py3-none-any.whl",
+          "size": 100687,
+          "sha256": "5339da206bf3532e01a83a35aca202960ea885156986d190574b779598e9e772"
+        },
+        {
+          "path": "envs/default/pack/pypi/googleapis_common_protos-1.76.0-py3-none-any.whl",
+          "size": 307707,
+          "sha256": "59e13344a9f3651aa201a03e2bee815a3bf43a4baf1f9ff8a9b62a840ce25fac"
+        },
+        {
+          "path": "envs/default/pack/pypi/h11-0.16.0-py3-none-any.whl",
+          "size": 37515,
+          "sha256": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"
+        },
+        {
+          "path": "envs/default/pack/pypi/httpcore-1.0.9-py3-none-any.whl",
+          "size": 78784,
+          "sha256": "2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55"
+        },
+        {
+          "path": "envs/default/pack/pypi/httpx-0.28.1-py3-none-any.whl",
+          "size": 73517,
+          "sha256": "d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad"
+        },
+        {
+          "path": "envs/default/pack/pypi/httpx_sse-0.4.3-py3-none-any.whl",
+          "size": 8960,
+          "sha256": "0ac1c9fe3c0afad2e0ebb25a934a59f4c7823b60792691f779fad2c5568830fc"
+        },
+        {
+          "path": "envs/default/pack/pypi/idna-3.20-py3-none-any.whl",
+          "size": 69583,
+          "sha256": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c"
+        },
+        {
+          "path": "envs/default/pack/pypi/importlib_metadata-8.7.1-py3-none-any.whl",
+          "size": 27865,
+          "sha256": "5a1f80bf1daa489495071efbb095d75a634cf28a8bc299581244063b53176151"
+        },
+        {
+          "path": "envs/default/pack/pypi/jsonschema-4.25.1-py3-none-any.whl",
+          "size": 90040,
+          "sha256": "3fba0169e345c7175110351d456342c364814cfcf3b964ba4587f22915230a63"
+        },
+        {
+          "path": "envs/default/pack/pypi/jsonschema_specifications-2025.9.1-py3-none-any.whl",
+          "size": 18437,
+          "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+        },
+        {
+          "path": "envs/default/pack/pypi/markdown_it_py-4.3.0-py3-none-any.whl",
+          "size": 96951,
+          "sha256": "7aa1511a46c39138de78d9eba92ce47e63124d8003fc98b3a351909e04239efa"
+        },
+        {
+          "path": "envs/default/pack/pypi/mcp-1.23.3-py3-none-any.whl",
+          "size": 231570,
+          "sha256": "32768af4b46a1b4f7df34e2bfdf5c6011e7b63d7f1b0e321d0fdef4cd6082031"
+        },
+        {
+          "path": "envs/default/pack/pypi/mdurl-0.1.2-py3-none-any.whl",
+          "size": 9979,
+          "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_api-1.37.0-py3-none-any.whl",
+          "size": 65732,
+          "sha256": "accf2024d3e89faec14302213bc39550ec0f4095d1cf5ca688e1bfb1c8612f47"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_exporter_otlp_proto_common-1.37.0-py3-none-any.whl",
+          "size": 18359,
+          "sha256": "53038428449c559b0c564b8d718df3314da387109c4d36bd1b94c9a641b0292e"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_exporter_otlp_proto_http-1.37.0-py3-none-any.whl",
+          "size": 19576,
+          "sha256": "54c42b39945a6cc9d9a2a33decb876eabb9547e0dcb49df090122773447f1aef"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_instrumentation-0.58b0-py3-none-any.whl",
+          "size": 33019,
+          "sha256": "50f97ac03100676c9f7fc28197f8240c7290ca1baa12da8bfbb9a1de4f34cc45"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_instrumentation_requests-0.58b0-py3-none-any.whl",
+          "size": 12966,
+          "sha256": "672a0be0bb5b52bea0c11820b35e27edcf4cd22d34abe4afc59a92a80519f8a8"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_instrumentation_threading-0.58b0-py3-none-any.whl",
+          "size": 9312,
+          "sha256": "eacc072881006aceb5b9b6831bcdce718c67ef6f31ac0b32bd6a23a94d979b4a"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_proto-1.37.0-py3-none-any.whl",
+          "size": 72534,
+          "sha256": "8ed8c066ae8828bbf0c39229979bdf583a126981142378a9cbe9d6fd5701c6e2"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_sdk-1.37.0-py3-none-any.whl",
+          "size": 131941,
+          "sha256": "8f3c3c22063e52475c5dbced7209495c2c16723d016d39287dfc215d1771257c"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_semantic_conventions-0.58b0-py3-none-any.whl",
+          "size": 207954,
+          "sha256": "5564905ab1458b96684db1340232729fce3b5375a06e140e8904c78e4f815b28"
+        },
+        {
+          "path": "envs/default/pack/pypi/opentelemetry_util_http-0.58b0-py3-none-any.whl",
+          "size": 7652,
+          "sha256": "6c6b86762ed43025fbd593dc5f700ba0aa3e09711aedc36fd48a13b23d8cb1e7"
+        },
+        {
+          "path": "envs/default/pack/pypi/packaging-26.3-py3-none-any.whl",
+          "size": 129956,
+          "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+        },
+        {
+          "path": "envs/default/pack/pypi/peewee-3.19.0-py3-none-any.whl",
+          "size": 411885,
+          "sha256": "de220b94766e6008c466e00ce4ba5299b9a832117d9eb36d45d0062f3cfd7417"
+        },
+        {
+          "path": "envs/default/pack/pypi/protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl",
+          "size": 323436,
+          "sha256": "e9db7e292e0ab79dd108d7f1a94fe31601ce1ee3f7b79e0692043423020b0593"
+        },
+        {
+          "path": "envs/default/pack/pypi/pycparser-3.12-py3-none-any.whl",
+          "size": 62600,
+          "sha256": "a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e"
+        },
+        {
+          "path": "envs/default/pack/pypi/pydantic-2.14.3-py3-none-any.whl",
+          "size": 494071,
+          "sha256": "3f7b347782ab7e4cf4c798496ae3a82787d9f21ec12676a9c564355eeef8daa8"
+        },
+        {
+          "path": "envs/default/pack/pypi/pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "size": 2261727,
+          "sha256": "c81d98e27d9d9261909dcccab1ba5d6ea1c98b0bb9470e368604614fd1d36ddd"
+        },
+        {
+          "path": "envs/default/pack/pypi/pydantic_settings-2.16.2-py3-none-any.whl",
+          "size": 81994,
+          "sha256": "8d523e5c129b097686bde019bd6109bff53f4c8c3f63f1ddf9933ffa42e5ab4f"
+        },
+        {
+          "path": "envs/default/pack/pypi/pygments-2.21.0-py3-none-any.whl",
+          "size": 1250147,
+          "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9"
+        },
+        {
+          "path": "envs/default/pack/pypi/pyjwt-2.15.1-py3-none-any.whl",
+          "size": 33860,
+          "sha256": "42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193"
+        },
+        {
+          "path": "envs/default/pack/pypi/python_dotenv-1.2.4-py3-none-any.whl",
+          "size": 23266,
+          "sha256": "42269a8a5b3fd54ffa6f3d84b18abed50064717576b4ecf03dc4a55d8aa04fdc"
+        },
+        {
+          "path": "envs/default/pack/pypi/python_multipart-0.0.33-py3-none-any.whl",
+          "size": 32253,
+          "sha256": "8f16c07b36add9da6b2ee87d3efcaf0a45a6de9c3d0a5dd94e9ccf7675a7bc45"
+        },
+        {
+          "path": "envs/default/pack/pypi/referencing-0.37.0-py3-none-any.whl",
+          "size": 26766,
+          "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+        },
+        {
+          "path": "envs/default/pack/pypi/requests-2.34.2-py3-none-any.whl",
+          "size": 73075,
+          "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0"
+        },
+        {
+          "path": "envs/default/pack/pypi/rich-13.5.3-py3-none-any.whl",
+          "size": 239782,
+          "sha256": "9257b468badc3d347e146a4faa268ff229039d4c2d176ab0cffb4c4fbc73d5d9"
+        },
+        {
+          "path": "envs/default/pack/pypi/rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "size": 371261,
+          "sha256": "addeda51556dac7c1a2f14cda62db8b621cd12afba3091d03a96c72932387eab"
+        },
+        {
+          "path": "envs/default/pack/pypi/ruamel.yaml.clib-0.2.14-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "size": 753141,
+          "sha256": "a05ba88adf3d7189a974b2de7a9d56731548d35dc0a822ec3dc669caa7019b29"
+        },
+        {
+          "path": "envs/default/pack/pypi/ruamel_yaml-0.19.1-py3-none-any.whl",
+          "size": 118102,
+          "sha256": "27592957fedf6e0b62f281e96effd28043345e0e66001f97683aa9a40c667c93"
+        },
+        {
+          "path": "envs/default/pack/pypi/rude-0.1a4-cp311-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "size": 628924,
+          "sha256": "e076477f9e206338521d50493cf9044a2353b37b778d0cb974ac0f4bc85828a0"
+        },
+        {
+          "path": "envs/default/pack/pypi/rude_clean_code-0.1.0-py3-none-any.whl",
+          "size": 10649,
+          "sha256": "1bd6645d9801e932c6d96bd19462c08a3ef816bcfec78fbda04c44b3283a6f4e"
+        },
+        {
+          "path": "envs/default/pack/pypi/semantic_version-2.10.0-py2.py3-none-any.whl",
+          "size": 15552,
+          "sha256": "de78a3b8e0feda74cabc54aab2da702113e33ac9d9eb9d2389bcf1f58b7d9177"
+        },
+        {
+          "path": "envs/default/pack/pypi/semgrep-1.150.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-musllinux_1_0_x86_64.manylinux2014_x86_64.whl",
+          "size": 50492625,
+          "sha256": "7a2e3dfccd5cbdf1d5e664af6c0a8fbb2b6db4af6044d566f518855d21444c43"
+        },
+        {
+          "path": "envs/default/pack/pypi/sse_starlette-3.7.0-py3-none-any.whl",
+          "size": 18432,
+          "sha256": "f1d3136caa12d129284fca3d2ded79bc9af943320b6472712955fea52a6d3eea"
+        },
+        {
+          "path": "envs/default/pack/pypi/starlette-1.10.0-py3-none-any.whl",
+          "size": 80571,
+          "sha256": "478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4"
+        },
+        {
+          "path": "envs/default/pack/pypi/tomli-2.0.2-py3-none-any.whl",
+          "size": 13237,
+          "sha256": "2ebe24485c53d303f690b0ec092806a085f07af5a5aa1464f3931eec36caaa38"
+        },
+        {
+          "path": "envs/default/pack/pypi/typing_extensions-4.16.0-py3-none-any.whl",
+          "size": 45571,
+          "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+        },
+        {
+          "path": "envs/default/pack/pypi/typing_inspection-0.4.5-py3-none-any.whl",
+          "size": 14874,
+          "sha256": "bc210535442b39e1bf2805e0c7a17dfd6a4ace760c84c7f7d16245d23a6b1c39"
+        },
+        {
+          "path": "envs/default/pack/pypi/urllib3-2.8.0-py3-none-any.whl",
+          "size": 135717,
+          "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"
+        },
+        {
+          "path": "envs/default/pack/pypi/uvicorn-0.54.0-py3-none-any.whl",
+          "size": 87427,
+          "sha256": "505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf"
+        },
+        {
+          "path": "envs/default/pack/pypi/wcmatch-8.5.2-py3-none-any.whl",
+          "size": 39397,
+          "sha256": "17d3ad3758f9d0b5b4dedc770b65420d4dac62e680229c287bf24c9db856a478"
+        },
+        {
+          "path": "envs/default/pack/pypi/wrapt-1.17.3-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+          "size": 88036,
+          "sha256": "042ec3bb8f319c147b1301f2393bc19dba6e176b7da446853406d041c36c7828"
+        },
+        {
+          "path": "envs/default/pack/pypi/zipp-4.1.2-py3-none-any.whl",
+          "size": 10581,
+          "sha256": "b30cb6cd253122169c47de245ca24a86bac2a5d3802ba15bf7ba6414eb9e144d"
+        }
+      ],
+      "files": {
+        "blob": {
+          "path": "envs/default/pack/files.json",
+          "size": 4610656,
+          "sha256": "a983fc8c7f55b1a5c37ef0e817cb4a82125a04d9882964effc183e5a48fdbb41"
+        },
+        "entries": 32192
+      }
+    }
+  }
+}

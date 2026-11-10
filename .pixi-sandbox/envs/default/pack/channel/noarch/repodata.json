@@ -1,0 +1,153 @@
+{
+  "info": {
+    "subdir": "noarch"
+  },
+  "packages": {
+    "font-ttf-dejavu-sans-mono-2.37-hab24e00_0.tar.bz2": {
+      "build": "hab24e00_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "0c96522c6bdaed4b1566d11387caaf45",
+      "name": "font-ttf-dejavu-sans-mono",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "58d7f40d2940dd0a8aa28651239adbf5613254df0f75789919c4e6762054403b",
+      "size": 397370,
+      "subdir": "noarch",
+      "timestamp": 1566932522327,
+      "version": "2.37"
+    },
+    "font-ttf-inconsolata-3.000-h77eed37_0.tar.bz2": {
+      "build": "h77eed37_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "OFL-1.1",
+      "license_family": "Other",
+      "md5": "34893075a5c9e55cdafac56607368fc6",
+      "name": "font-ttf-inconsolata",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "c52a29fdac682c20d252facc50f01e7c2e7ceac52aa9817aaf0bb83f7559ec5c",
+      "size": 96530,
+      "subdir": "noarch",
+      "timestamp": 1620479909603,
+      "version": "3.000"
+    },
+    "font-ttf-source-code-pro-2.038-h77eed37_0.tar.bz2": {
+      "build": "h77eed37_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "OFL-1.1",
+      "license_family": "Other",
+      "md5": "4d59c254e01d9cde7957100457e2d5fb",
+      "name": "font-ttf-source-code-pro",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "00925c8c055a2275614b4d983e1df637245e19058d79fc7dd1a93b8d9fb4b139",
+      "size": 700814,
+      "subdir": "noarch",
+      "timestamp": 1620479612257,
+      "version": "2.038"
+    },
+    "fonts-conda-ecosystem-1-0.tar.bz2": {
+      "build": "0",
+      "build_number": 0,
+      "depends": [
+        "fonts-conda-forge"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "fee5683a3f04bd15cbd8318b096a27ab",
+      "name": "fonts-conda-ecosystem",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "a997f2f1921bb9c9d76e6fa2f6b408b7fa549edd349a77639c9fe7a23ea93e61",
+      "size": 3667,
+      "subdir": "noarch",
+      "timestamp": 1566974674465,
+      "version": "1"
+    }
+  },
+  "packages.conda": {
+    "ca-certificates-2026.10.23-hbd8a1cb_0.conda": {
+      "build": "hbd8a1cb_0",
+      "build_number": 0,
+      "depends": [
+        "__unix"
+      ],
+      "license": "ISC",
+      "md5": "3fd02989038a1e1cee627c14c2d73f29",
+      "name": "ca-certificates",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "95619b9c1184be7175392eeb0ee7eeb5ccf25d280951f4225f2d62e725790be3",
+      "size": 130057,
+      "subdir": "noarch",
+      "timestamp": 1792772446739,
+      "version": "2026.10.23"
+    },
+    "font-ttf-ubuntu-0.83-h77eed37_3.conda": {
+      "build": "h77eed37_3",
+      "build_number": 3,
+      "depends": [],
+      "license": "LicenseRef-Ubuntu-Font-Licence-Version-1.0",
+      "license_family": "Other",
+      "md5": "49023d73832ef61042f6a237cb2687e7",
+      "name": "font-ttf-ubuntu",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "2821ec1dc454bd8b9a31d0ed22a7ce22422c0aef163c59f49dfdf915d0f0ca14",
+      "size": 1620504,
+      "subdir": "noarch",
+      "timestamp": 1727511233259,
+      "version": "0.83"
+    },
+    "fonts-conda-forge-1-hc364b38_1.conda": {
+      "build": "hc364b38_1",
+      "build_number": 1,
+      "depends": [
+        "font-ttf-ubuntu",
+        "font-ttf-inconsolata",
+        "font-ttf-dejavu-sans-mono",
+        "font-ttf-source-code-pro"
+      ],
+      "license": "BSD-3-Clause",
+      "license_family": "BSD",
+      "md5": "a7970cd949a077b7cb9696379d338681",
+      "name": "fonts-conda-forge",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "54eea8469786bc2291cc40bca5f46438d3e062a399e8f53f013b6a9f50e98333",
+      "size": 4059,
+      "subdir": "noarch",
+      "timestamp": 1762351264405,
+      "version": "1"
+    },
+    "tzdata-2026e-h5d301ff_0.conda": {
+      "build": "h5d301ff_0",
+      "build_number": 0,
+      "depends": [],
+      "license": "LicenseRef-Public-Domain",
+      "md5": "abccc3810d2b97e570dee487f2b46e38",
+      "name": "tzdata",
+      "noarch": "generic",
+      "purls": [],
+      "run_exports": {},
+      "sha256": "2b7ca858879f183ce2dcc65b300f48a0133d5430550f35b23d80d405a0788dbf",
+      "size": 119208,
+      "subdir": "noarch",
+      "timestamp": 1792758382821,
+      "version": "2026e"
+    }
+  },
+  "repodata_version": 2
+}
