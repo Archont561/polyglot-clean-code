@@ -1,10 +1,10 @@
 ---
 id: PCC-18
 title: Refresh Pedantic preset rules
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-10 18:30'
-updated_date: '2026-11-10 20:15'
+updated_date: '2026-11-10 20:30'
 labels: []
 dependencies: [PCC-17]
 priority: medium
@@ -24,7 +24,7 @@ Continue the dev loop after PCC-17 is Done. This task holds the 9 canonical rule
 - [x] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
 - [x] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
 - [x] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
-- [ ] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
+- [x] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -146,5 +146,15 @@ Every Pedantic rule keeps its `[PCC-...]` prefix. The Pedantic column of [`docs/
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence and the final summary when the work is complete.
+The nine Pedantic IDs survived the audit: every message keeps its `[PCC-...]` prefix, the deterministic IDs sit at `error` or `ERROR`, the heuristic IDs stay at `warning`, and each Semgrep rule's metadata agrees with its level. No severity changed.
+
+Pedantic also duplicated the fifteen native IDs from the earlier presets, and those copies were the stale part. The refresh dropped the two skills-lock rules, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, aligned the `PCC-R03` and `PCC-R04` messages, and excluded the generated Pixi Sandbox workflows from `pcc-r02-workflow-run-single-line`.
+
+The one Pedantic-specific defect was `pcc-r07-rule-test-dirs`. Alint's `file_exists` passes when any listed path exists, so the four-path rule passed on this repository while `automation/fixtures/vale/*.md` and `automation/fixtures/alint/good/README.md` were missing, and it reported nothing when every ast-grep test directory was deleted. It is now `pcc-r07-ast-grep-rule-tests` and `pcc-r07-semgrep-fixtures`, one rule per test family, and the two `automation/fixtures` paths are gone because this scaffold ships no such tree. Pedantic is 25 rules instead of 26.
+
+Evidence: this repository passes the refreshed preset 25 of 25 and failed the pre-refresh copy with 5 errors in the three stale places. Removing `bun.lock`, the register, single-lining the `ci.yml` step, the ast-grep test directories, or the Semgrep fixtures fired exactly the matching rule. With every ast-grep test directory deleted, the pre-refresh preset reported no `PCC-R07` finding at all, which is the deficiency the split removes.
+
+`pixi run --locked doit ci` ran in CI on PR #7, run [42883639634](https://github.com/Archont561/polyglot-clean-code/actions/runs/42883639634): the `doit ci` and Conventional Commit steps both succeeded. The local substitutes were `alint check . -c presets/alint/pedantic.yml` (25 of 25), `alint check . -c .alint.yml --fail-on-warning` (22 of 22), `alint validate-config` on all three presets, a YAML parse of every file under `presets/`, and `markdownlint-cli2` over the changed Markdown.
+
+With this task Done, all three Alint presets pass on this repository, and the documentation no longer needs a caveat about historical checks. PCC-10 and PCC-12 are the remaining open tasks.
 <!-- SECTION:FINAL_SUMMARY:END -->
