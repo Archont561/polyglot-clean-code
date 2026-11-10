@@ -10,7 +10,7 @@ This guide is for a consumer repository that wants the curated native configs wi
 | Consumer checkout | `vendor/clean-code-presets` | Name the directory after the artifact, not the upstream repository. Use `third_party/clean-code-presets` when that convention already exists. |
 | Published package, if added later | `@archont561/clean-code-presets` | A scoped name says what ships: presets. The current `polyglot-clean-code-dev` in `package.json` is a private developer manifest, not the distribution name. |
 | Preset root in commands | `$PRESETS` | A shell variable that points at the copied `presets/` directory. Set it once after installation. |
-| Pin selector | `$PIN` | A release tag after `PCC-12`, or a full commit SHA today. |
+| Pin selector | `$PIN` | A release tag such as `v0.1.0`, or a full commit SHA for an unreleased commit. |
 
 Avoid a root-level `presets/` directory in the consumer: it collides with existing config and makes the origin of each file ambiguous. Avoid `-generator`, `-configs`, and `-dev` in the checkout name. The four engines read native files, not the upstream repository name.
 
@@ -20,11 +20,11 @@ If the upstream repository is renamed, only the remote URL changes. The consumer
 
 A submodule records a commit in the superproject, not a tag name. A tag is a readable selector for that commit; the gitlink stores the SHA. Moving a tag later does not move a consumer that already committed the gitlink.
 
-At the time of writing, no release tag exists yet; `backlog/tasks/pcc-12` is open. Set `$PIN` to a full commit SHA today. After the first release, set it to a tag such as `v0.1.0`. The release workflow accepts tags matching `v*`, and `doit build-release` checks the tag against the version in `pixi.toml`. Check `git ls-remote --tags https://github.com/Archont561/polyglot-clean-code.git` before choosing a tag.
+The first release is `v0.1.0`, and each release attaches a per-tool `presets` archive plus a `SHA256SUMS` file, so a consumer without a submodule can download one archive. Set `$PIN` to a release tag; use a full commit SHA only when you need an unreleased commit. The release workflow accepts tags matching `v*`, and `doit build-release` checks the tag against the version in `pixi.toml`. Check `git ls-remote --tags https://github.com/Archont561/polyglot-clean-code.git` before choosing a tag.
 
 ```sh
 PIN=v0.1.0
-# Until PCC-12 publishes a tag, use a full commit SHA instead:
+# Use a full commit SHA when you need a commit that no tag covers:
 # PIN=<full-commit-sha>
 ```
 

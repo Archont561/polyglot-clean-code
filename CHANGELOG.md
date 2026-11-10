@@ -2,18 +2,6 @@
 
 All notable changes to polyglot-clean-code are documented here.
 
-## Unreleased
-
-- Added an offline sandbox lane: a reviewed `pixi-sandbox.toml` plan plus the generated publisher, relock workflow, and `restore.sh` launcher that publish `sandbox/developer-linux-64`.
-- Scoped the single-line workflow rule to the hand-maintained workflows so generated Pixi Sandbox files stay byte-identical to the generator's output.
-- Refreshed the Alint Pedantic preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, excluded the generated Pixi Sandbox workflows from the single-line rule, and split `pcc-r07-rule-test-dirs` into per-family rules, for 25 rules.
-- Refreshed the Alint Strict preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and excluded the generated Pixi Sandbox workflows from the single-line rule, for 21 rules.
-- Refreshed the Alint Recommended preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and pointed it at `docs/concepts/rule-register.md`, for 16 rules.
-- Excluded the generated `publish-sandbox.yml` and `relock.yml` from the Alint Recommended single-line rule so the preset passes on this repository and on consumers that adopt Pixi Sandbox.
-- Documented sandbox publishing, restore, and regeneration in `docs/guides/offline-sandbox.md`.
-
-- Fixed the generated publisher cache flag: the rendered workflow now carries `setup_pixi_cache = false` from `pixi-sandbox.toml`, so `setup-pixi` no longer rejects `run-install: false` with `cache: true`.
-
 ## 0.1.0
 
 - Added 30 curated canonical rules across Alint, Vale, ast-grep, and Semgrep.
@@ -25,3 +13,14 @@ All notable changes to polyglot-clean-code are documented here.
 - Kept `automation/dodo.py` as the only automation file.
 - Replaced the generated README with a hand-maintained brief README.
 - Documented the backlog rule register, engine limits, consumer adoption, and tag pinning.
+- Added an offline sandbox lane: a reviewed `pixi-sandbox.toml` plan plus the generated publisher, relock workflow, and `restore.sh` launcher that publish `sandbox/developer-linux-64`.
+- Scoped the single-line workflow rule to the hand-maintained workflows so generated Pixi Sandbox files stay byte-identical to the generator's output.
+- Refreshed the Alint Pedantic preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, excluded the generated Pixi Sandbox workflows from the single-line rule, and split `pcc-r07-rule-test-dirs` into per-family rules, for 25 rules.
+- Refreshed the Alint Strict preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and excluded the generated Pixi Sandbox workflows from the single-line rule, for 21 rules.
+- Refreshed the Alint Recommended preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and pointed it at `docs/concepts/rule-register.md`, for 16 rules.
+- Excluded the generated `publish-sandbox.yml` and `relock.yml` from the Alint Recommended single-line rule so the preset passes on this repository and on consumers that adopt Pixi Sandbox.
+- Documented sandbox publishing, restore, and regeneration in `docs/guides/offline-sandbox.md`.
+- Fixed the generated publisher cache flag: the rendered workflow now carries `setup_pixi_cache = false` from `pixi-sandbox.toml`, so `setup-pixi` no longer rejects `run-install: false` with `cache: true`.
+- Added `doit presets-archive`, which packs every preset tree into a byte-reproducible tarball beside a `SHA256SUMS-0.1.0.txt` file.
+- Added a release publish job that attaches the preset archives, the checksum file, and the rendered Convco changelog to the GitHub Release for a `v*` tag.
+- Published the first release as `v0.1.0`.
