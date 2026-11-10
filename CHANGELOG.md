@@ -6,6 +6,7 @@ All notable changes to polyglot-clean-code are documented here.
 
 - Added an offline sandbox lane: a reviewed `pixi-sandbox.toml` plan plus the generated publisher, relock workflow, and `restore.sh` launcher that publish `sandbox/developer-linux-64`.
 - Scoped the single-line workflow rule to the hand-maintained workflows so generated Pixi Sandbox files stay byte-identical to the generator's output.
+- Refreshed the Alint Pedantic preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, excluded the generated Pixi Sandbox workflows from the single-line rule, and split `pcc-r07-rule-test-dirs` into per-family rules, for 25 rules.
 - Refreshed the Alint Strict preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and excluded the generated Pixi Sandbox workflows from the single-line rule, for 21 rules.
 - Refreshed the Alint Recommended preset: dropped the retired `skills-lock.json` checks, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register`, and pointed it at `docs/concepts/rule-register.md`, for 16 rules.
 - Excluded the generated `publish-sandbox.yml` and `relock.yml` from the Alint Recommended single-line rule so the preset passes on this repository and on consumers that adopt Pixi Sandbox.
