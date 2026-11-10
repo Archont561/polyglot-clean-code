@@ -1,0 +1,27 @@
+{
+  "name": "polyglot-clean-code-dev",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Opinionated, reusable Clean Code presets for polyglot repositories.",
+  "author": "Archont561",
+  "license": "MIT",
+  "homepage": "https://github.com/Archont561/polyglot-clean-code#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Archont561/polyglot-clean-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Archont561/polyglot-clean-code/issues"
+  },
+  "packageManager": "bun@1.4.2",
+  "devDependencies": {
+    "backlog.md": "1.55.3",
+    "markdownlint-cli2": "0.24.0"
+  },
+  "scripts": {
+    "test": "pixi run --locked doit ci",
+    "lint": "pixi run --locked doit policy",
+    "docs": "pixi run --locked doit docs",
+    "backlog": "pixi run --locked doit backlog"
+  }
+}

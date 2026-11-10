@@ -1,0 +1,13 @@
+# Hooks delegate to the locked doit registry in automation/dodo.py.
+pre-commit:
+  jobs:
+    - name: fresh-policy
+      run: pixi run --locked doit pre-commit
+commit-msg:
+  jobs:
+    - name: conventional-commit
+      run: pixi run --locked doit lint-commit < {1}
+pre-push:
+  jobs:
+    - name: ci
+      run: pixi run --locked doit ci
