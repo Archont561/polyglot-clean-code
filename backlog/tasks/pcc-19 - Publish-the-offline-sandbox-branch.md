@@ -25,7 +25,7 @@ Add the offline sandbox lane that other Archont561 repositories run. A reviewed 
 - [x] #2 Generate `publish-sandbox.yml`, `relock.yml`, and `restore.sh` from the Pixi Sandbox 0.9.0 templates and keep the version stamp.
 - [x] #3 Keep the root Alint policy green: `contents: read` at the workflow level, SHA-pinned actions, and the single-line rule scoped to hand-maintained workflows.
 - [x] #4 Document publishing, restore, and regeneration in `docs/guides/offline-sandbox.md` and link it from the README.
-- [x] #5 Confirm the publisher run on `main` and the `sandbox/developer-linux-64` branch after the merge.
+- [ ] #5 Confirm the publisher run on `main` and the `sandbox/developer-linux-64` branch after the merge.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -37,5 +37,5 @@ Read the plan in `pixi-sandbox.toml`, regenerate the three owned files with `pix
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Added `pixi-sandbox.toml`, the generated `publish-sandbox.yml` and `relock.yml`, and the generated `restore.sh`. Scoped the root `pcc-r02-workflow-run-single-line` rule to `ci.yml` and `release.yml` so the generated publisher keeps its checksum-verified bootstrap step. Added `docs/guides/offline-sandbox.md`, updated the README, the documentation index, the repository layout, the agent guide, the contributing guide, and the changelog. Verification: Markdown and JSON structure checks, Alint 22/22 on the root policy, and the publisher run on `main` after the pull request merged.
+Added `pixi-sandbox.toml`, the generated `publish-sandbox.yml` and `relock.yml`, and the generated `restore.sh`. Scoped the root `pcc-r02-workflow-run-single-line` rule to `ci.yml` and `release.yml` so the generated publisher keeps its checksum-verified bootstrap step. Added `docs/guides/offline-sandbox.md`, updated the README, the documentation index, the repository layout, the agent guide, the contributing guide, and the changelog. Verification: Markdown and JSON structure checks, Alint 22/22 on the root policy, and the guard, relock, and dispatch steps in run 42871079274, which relocked `pixi.lock` on the pull request and exposed the pre-merge dispatch limit for a workflow that exists only in the change. The publisher run on `main` is confirmed after the merge.
 <!-- SECTION:FINAL_SUMMARY:END -->
