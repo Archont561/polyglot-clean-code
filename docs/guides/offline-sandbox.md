@@ -22,7 +22,9 @@ gh workflow run publish-sandbox.yml --ref main
 gh run watch "$(gh run list --workflow publish-sandbox.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```
 
-The job downloads the pinned `pixi-sandbox` release, verifies the checksum, installs the `default` environment, packs it, runs `doctor` against the reviewed budgets, and force-pushes the result to `sandbox/developer-linux-64`. Confirm the branch after the run:
+The job downloads the pinned `pixi-sandbox` release, verifies the checksum, installs the `default` environment, packs it, runs `doctor` against the reviewed budgets, and force-pushes the result to `sandbox/developer-linux-64`. A change to the publisher or the launcher is not a transport input, so the `paths` filter does not repack for it; dispatch the workflow yourself after such a merge.
+
+Confirm the branch after the run:
 
 ```sh
 git ls-remote --heads origin 'refs/heads/sandbox/*'
@@ -41,6 +43,17 @@ pixi run --frozen doit ci
 ```
 
 The launcher reads the branch from `pixi-sandbox.toml`, fetches only the `sandbox/*` namespace when the branch is missing, verifies the transport against its manifest, and registers the packed tools for the current user. Set `PIXI_SANDBOX_FETCH=skip` when the branch is already in the clone, and `PIXI_SANDBOX_USER_TOOLS=skip` on a shared host that must not touch the user `PATH`.
+
+## Verifying a published branch
+
+The snapshot commit carries the provenance: its manifest records the source commit, the `pixi.lock` digest, the size budgets, a SHA-256 for every blob, and the pinned digest of both bundled tools.
+
+```sh
+git show origin/sandbox/developer-linux-64:.pixi-sandbox/manifest.json \
+  | jq '{platform, source, blobs: (.envs.default.blobs | length), tools: (.tools | keys)}'
+```
+
+A published branch for this repository reports schema 5, `linux-64`, 126 blobs, 223.5 MiB packed against 871.3 MiB unpacked, and a largest blob of 48.2 MiB against the 95 MiB default. Those numbers are the review baseline: a jump in them is a dependency change worth naming in the pull request.
 
 ## Reviewing a relock commit
 
