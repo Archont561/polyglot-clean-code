@@ -96,7 +96,7 @@ jobs:
         with:
           run-install: false
           pixi-version: "v0.84.1"
-          cache: true
+          cache: false
       - name: Fetch the pinned pixi-sandbox release
         shell: bash
         env:
@@ -175,7 +175,7 @@ jobs:
         with:
           run-install: false
           pixi-version: "v0.84.1"
-          cache: true
+          cache: false
       - name: Fetch the pinned pixi-sandbox release
         shell: bash
         env:
