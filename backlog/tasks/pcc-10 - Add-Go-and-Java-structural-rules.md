@@ -1,10 +1,10 @@
 ---
 id: PCC-10
 title: Add Go and Java structural rules
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-10 14:30'
-updated_date: '2026-11-11 00:55'
+updated_date: '2026-11-11 01:20'
 labels: []
 dependencies: []
 priority: medium
@@ -93,5 +93,22 @@ The flawed Go file produced one finding per `fmt.Println` and `fmt.Printf` call 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence when the work is complete.
+Go and Java now have structural coverage, and the route there is more useful than the rules themselves.
+
+The evidence step answered AC #1 negatively: across twenty-four public `Archont561` repositories the primary languages are Python, TypeScript, Rust, and Astro, with no Go or Java code anywhere. Rather than invent thresholds with nothing to measure them against, the task extended two canonical IDs that already rest on shipped doctrine. `PCC-S01` gained `pcc-s01-print-go` and `pcc-s01-print-java`, the latter covering `printStackTrace()` as well as `System.out` and `System.err`; `PCC-S07` gained `pcc-s07-empty-catch-java`. All three rules live in the Pedantic ast-grep project, keep the existing titles, messages, and `error` severity, and add no new canonical ID, so the register stays at 30 rules and every earlier entry remains accurate.
+
+The most valuable finding was a rule-design trap. The first Go rule used `pattern: fmt.Println($$$ARGS)`; the native test harness passed it, but a real `.go` file matched nothing, because tree-sitter-go parses a bare `pkg.Func(x)` as a type conversion rather than a call. `--debug-query=ast` shows `type_conversion_expression`. The rule now matches `kind: call_expression` with a `has: field: function` regex, and the test snippets wrap their calls in a function so the harness exercises production-shaped code. A snippet-only test suite would have shipped a dead rule.
+
+AC #3 is measured rather than asserted. A synthetic corpus outside the repository paired a Go service on `log/slog` and a Java service on slf4j with deliberately flawed twins:
+
+| Tree | `pcc-s01-print-go` | `pcc-s01-print-java` | `pcc-s07-empty-catch-java` | Total |
+| --- | --- | --- | --- | --- |
+| Deliberately flawed | 2 | 3 | 1 | 6 |
+| Idiomatic | 0 | 0 | 0 | 0 |
+
+`ast-grep test` runs thirteen pedantic test files, all passing, and CI on PR #12 (run [42893675912](https://github.com/Archont561/polyglot-clean-code/actions/runs/42893675912)) re-ran them inside the locked Pixi environment, which is the real proof that the pinned ast-grep 0.51.1 accepts the `call_expression` rule. Root Alint passes 22 of 22, and the three Alint presets pass 16, 21, and 25.
+
+No toolchain was installed. `go` and `javac` are absent from this sandbox and conda-forge is unreachable from it, so the compiler question was answered by reasoning rather than by `pixi add`: structural rules match tree-sitter syntax, an unparsable snippet already fails the native test, and a compiler would validate the sample program instead of the rule. That judgement is written into [`docs/architecture/scan-findings.md`](../../docs/architecture/scan-findings.md) together with the evidence gap, so a future Go or Java consumer knows the first real false-positive baseline is still owed.
+
+`CHANGELOG.md` grew an `## Unreleased` section for the first time since the `v0.1.0` tag, which also corrected one post-release bullet that had been filed under the published version. With this task Done, every task in the backlog is complete.
 <!-- SECTION:FINAL_SUMMARY:END -->
