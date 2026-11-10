@@ -49,7 +49,7 @@ The maintained documents live under `docs/`. Start with [`docs/README.md`](docs/
 
 ## Validation
 
-Maintained Markdown is checked by **Vale** for prose, **markdownlint-cli2** for Markdown structure, and **Alint** for repository and documentation structure (`PCC-R02` and `PCC-R04`). `doit docs` runs the prose and Markdown checks; `doit policy` and `doit ci` add Alint, the native engine tests, and workflow checks. See [`docs/development/documentation.md`](docs/development/documentation.md) and [`docs/guides/running-the-checks.md`](docs/guides/running-the-checks.md).
+Maintained Markdown is checked by **Vale** for prose, **markdownlint-cli2** for Markdown structure, and **Alint** for repository and documentation structure (`PCC-R02` and `PCC-R04`). `doit docs` runs the prose and Markdown checks; `doit policy` and `doit ci` add Alint, the native engine tests, workflow checks, and a Rude pass with the Clean Code plugin over `automation/`. The plugin lints this repository's own Python; the distribution still ships no linter. See [`docs/development/documentation.md`](docs/development/documentation.md) and [`docs/guides/running-the-checks.md`](docs/guides/running-the-checks.md).
 
 `README.md` is hand-maintained. Edit it directly; no template, generator, or `check-readme` task exists.
 

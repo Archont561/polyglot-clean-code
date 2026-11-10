@@ -15,6 +15,7 @@ polyglot-clean-code/
 ├── docs/                         # Architecture, concepts, guides, and reference
 ├── .github/                      # CI, release, sandbox publisher, and issue templates
 ├── pixi.toml / pixi.lock         # Environment of record
+├── pyproject.toml                # Rude configuration for the automation code
 ├── pixi-sandbox.toml             # Reviewed publish plan for the offline sandbox
 ├── restore.sh                    # Generated airlock launcher
 └── package.json / bun.lock       # Developer CLIs

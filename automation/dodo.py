@@ -30,6 +30,12 @@ PRESETS = ("recommended", "strict", "pedantic")
 
 RELEASE_ARCHIVES = ("alint", "vale", "ast-grep", "semgrep")
 
+PRESETS_ROOT = ROOT / "presets"
+
+# The Semgrep fixtures are deliberately invalid targets for the shipped rules, so the
+# Python lint scopes to the hand-written automation code instead of the whole tree.
+PYTHON_TARGETS = ("automation",)
+
 VALE_TARGETS = (
     "README.md",
     "AGENTS.md",
@@ -153,15 +159,17 @@ def validate_semgrep_configs() -> None:
     print("Semgrep preset configurations are valid.")
 
 
+def _has_commit_range(base: str, head: str) -> bool:
+    """Report whether both ends of a Convco range exist in this checkout."""
+    if not base or not head:
+        return False
+    return _git_is_commit(base) and _git_is_commit(head)
+
+
 def check_commit_messages(base: str = "", head: str = "") -> None:
     """Validate a commit range with Convco when Git history exists."""
     resolved_base = _resolve_commit_base(base)
-    if (
-        not head
-        or not _git_is_commit(head)
-        or not resolved_base
-        or not _git_is_commit(resolved_base)
-    ):
+    if not _has_commit_range(resolved_base, head):
         print("No complete commit range available; skipping the Convco range check.")
         return
     _run(["convco", "check", f"{resolved_base}..{head}"])
@@ -173,38 +181,62 @@ def workspace_version() -> str:
     return str(manifest["workspace"]["version"])
 
 
-def build_preset_archives() -> None:
-    """Pack every preset tree into a reproducible archive beside a checksum file."""
-    version = workspace_version()
-    dist = ROOT / "dist"
-    dist.mkdir(exist_ok=True)
-    archives: list[Path] = []
-    for tool in RELEASE_ARCHIVES:
-        target = dist / f"polyglot-clean-code-presets-{tool}-{version}.tar.gz"
-        source = ROOT / "presets" / tool
-        with gzip.GzipFile(str(target), "wb", mtime=0) as stream:
-            with tarfile.open(fileobj=stream, mode="w", format=tarfile.PAX_FORMAT) as archive:
-                for path in sorted(source.rglob("*")):
-                    info = archive.gettarinfo(
-                        str(path), arcname=str(path.relative_to(ROOT / "presets"))
-                    )
-                    info.uid = 0
-                    info.gid = 0
-                    info.uname = ""
-                    info.gname = ""
-                    info.mtime = 0
-                    if info.isfile():
-                        with path.open("rb") as handle:
-                            archive.addfile(info, handle)
-                    else:
-                        archive.addfile(info)
-        archives.append(target)
+def _reproducible_entry(archive: tarfile.TarFile, path: Path) -> tarfile.TarInfo:
+    """Return a tar entry with normalised owner and timestamp metadata."""
+    info = archive.gettarinfo(str(path), arcname=str(path.relative_to(PRESETS_ROOT)))
+    info.uid = 0
+    info.gid = 0
+    info.uname = ""
+    info.gname = ""
+    info.mtime = 0
+    return info
+
+
+def _add_entry(archive: tarfile.TarFile, path: Path) -> None:
+    """Copy one preset path into an archive as a file or a directory entry."""
+    info = _reproducible_entry(archive, path)
+    if not info.isfile():
+        archive.addfile(info)
+        return
+    with path.open("rb") as handle:
+        archive.addfile(info, handle)
+
+
+def _archive_tool(tool: str, target: Path) -> None:
+    """Write one deterministic archive for a single preset tree."""
+    stream = gzip.GzipFile(str(target), "wb", mtime=0)
+    archive = tarfile.open(fileobj=stream, mode="w", format=tarfile.PAX_FORMAT)
+    # Enter the stream first so it closes after the tar trailer is written.
+    with stream, archive:
+        for path in sorted((PRESETS_ROOT / tool).rglob("*")):
+            _add_entry(archive, path)
+
+
+def _pack_preset(tool: str, dist: Path, version: str) -> Path:
+    """Build the archive for one tool and return its path."""
+    target = dist / f"polyglot-clean-code-presets-{tool}-{version}.tar.gz"
+    _archive_tool(tool, target)
+    return target
+
+
+def _write_checksums(archives: list[Path], dist: Path, version: str) -> Path:
+    """Write a SHA-256 manifest for the archives and return its path."""
     lines = [
         f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}"
         for path in archives
     ]
     checksums = dist / f"SHA256SUMS-{version}.txt"
     checksums.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return checksums
+
+
+def build_preset_archives() -> None:
+    """Pack every preset tree into a reproducible archive beside a checksum file."""
+    version = workspace_version()
+    dist = ROOT / "dist"
+    dist.mkdir(exist_ok=True)
+    archives = [_pack_preset(tool, dist, version) for tool in RELEASE_ARCHIVES]
+    checksums = _write_checksums(archives, dist, version)
     print(f"Packed {len(archives)} preset archives and wrote {checksums.name}.")
 
 
@@ -221,7 +253,10 @@ def build_release(ref_name: str = "") -> None:
     notes = ROOT / "dist" / "release-notes.md"
     notes.parent.mkdir(exist_ok=True)
     notes.write_text(changelog.stdout, encoding="utf-8")
-    print(f"Release validation passed for version {version}; notes at dist/{notes.name}.")
+    print(
+        f"Release validation passed for version {version}; "
+        f"notes at dist/{notes.name}."
+    )
 
 
 def install_hooks() -> None:
@@ -360,6 +395,14 @@ def task_build_release() -> dict[str, Any]:
     }
 
 
+def task_lint_python() -> dict[str, Any]:
+    """Lint the automation code with Rude and the Clean Code plugin."""
+    return {
+        "basename": "lint-python",
+        "actions": [["rude", "check", *PYTHON_TARGETS]],
+    }
+
+
 def task_install_hooks() -> dict[str, Any]:
     """Install or verify Lefthook hooks."""
     return {"basename": "install-hooks", "actions": [install_hooks]}
@@ -377,6 +420,7 @@ def task_pre_commit() -> dict[str, Any]:
         "task_dep": [
             "alint",
             "lint-prose",
+            "lint-python",
             "docs-lint",
             "actionlint",
             "ast-grep-test",
@@ -394,6 +438,7 @@ def task_policy() -> dict[str, Any]:
         "task_dep": [
             "alint",
             "lint-prose",
+            "lint-python",
             "docs-lint",
             "actionlint",
             "ast-grep-test",
