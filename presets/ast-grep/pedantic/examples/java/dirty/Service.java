@@ -3,16 +3,16 @@ package dirty;
 
 final class Service {
     void start(int port) {
-        System.out.println("starting");
-        System.err.println("port " + port);
+        System.out.println("starting"); // expect: pcc-s01-print-java
+        System.err.println("port " + port); // expect: pcc-s01-print-java
     }
 
     void stop(Exception error) {
-        try {
+        try { // expect: pcc-s07-empty-catch-java
             close();
         } catch (RuntimeException failure) {
         }
-        error.printStackTrace();
+        error.printStackTrace(); // expect: pcc-s01-print-java
     }
 
     private void close() {
