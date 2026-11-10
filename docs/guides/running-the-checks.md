@@ -9,7 +9,7 @@ All automation lives in `automation/dodo.py`. Run tasks through the locked Pixi 
 | `doit ci` | Run the full local CI chain |
 | `doit alint` | Check this repository with its root Alint config |
 | `doit lint-prose` | Run Vale over maintained documents |
-| `doit lint-python` | Run Rude with the Clean Code plugin over `automation/` |
+| `doit lint-python` | Run Rude with the Clean Code plugin over every tracked Python file |
 | `doit docs-lint` | Run markdownlint-cli2 |
 | `doit ast-grep-test` | Run native ast-grep rule tests for every preset |
 | `doit semgrep-validate` | Validate every Semgrep preset |
