@@ -1,10 +1,10 @@
 ---
 id: PCC-17
 title: Refresh Strict preset rules
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-11-10 18:30'
-updated_date: '2026-11-10 18:30'
+updated_date: '2026-11-10 19:40'
 labels: []
 dependencies: [PCC-16]
 priority: medium
@@ -21,9 +21,9 @@ Continue the dev loop after PCC-16 is Done. This task holds the 10 canonical rul
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
-- [ ] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
-- [ ] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
+- [x] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
+- [x] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
+- [x] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
 - [ ] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
 <!-- AC:END -->
 
@@ -47,6 +47,8 @@ Work one ID at a time. Read the rule details below, open the matching native con
 | `PCC-P04` | semgrep | Network calls declare a timeout | deterministic | pcc-p04-requests-timeout-python |
 | `PCC-P05` | semgrep | Preserve exception causes | deterministic | pcc-p05-exception-chaining-python |
 | `PCC-P06` | semgrep | Task markers carry a reference | heuristic | pcc-p06-unreferenced-markers |
+
+The Strict preset also ships the six native IDs first exposed in Recommended (`PCC-R01`–`PCC-R04`). Strict raises their level to `error`, which the severity ladder permits, and the refresh carried the PCC-16 wording, the rule-register rename, and the generated-workflow exclusions into the Strict copies. The authoritative details for those IDs stay in PCC-16.
 
 ## Rule details
 
@@ -129,6 +131,27 @@ Work one ID at a time. Read the rule details below, open the matching native con
 - Positive: `# Follow-up: PCC-42 reference recorded`
 - Negative: `# Unfinished marker without a reference`
 - Implementations: `pcc-p06-unreferenced-markers`
+
+## Verification
+
+<!-- SECTION:VERIFICATION:BEGIN -->
+Every Strict rule keeps its `[PCC-...]` prefix. Deterministic IDs (`PCC-R05`, `PCC-R06`, `PCC-D04`, `PCC-S03`, `PCC-S04`, `PCC-P04`, `PCC-P05`) sit at `error` in Alint and ast-grep and at `ERROR` in Semgrep, which is the Strict column of [`docs/reference/rule-matrix.md`](../../docs/reference/rule-matrix.md). The heuristic IDs are `warning` in Vale and ast-grep (`PCC-D03`, `PCC-S05`, `PCC-P06`) and `off` in Semgrep, where the preset ships no heuristic rule.
+
+`presets/alint/strict.yml` now holds 21 rules instead of 23. The two skills-lock checks are gone, `pcc-r04-rule-reference` became `pcc-r04-rule-register`, the `PCC-R03` and `PCC-R04` messages match the refreshed Recommended preset, and `pcc-r02-workflow-run-single-line` excludes the two workflows that `pixi-sandbox init` generates. At `error` level those exclusions matter: without them a consumer that adopts Pixi Sandbox fails its own preset.
+
+| Run | Target | Result |
+| --- | --- | --- |
+| Positive | this repository, refreshed preset | `✓ All 21 rule(s) passed.` |
+| Positive | this repository, pre-refresh preset | `5 errors` in three rules: `pcc-r03-skills-lock`, `pcc-r04-rule-reference`, and `pcc-r02-workflow-run-single-line` three times on the generated workflows |
+| Contrast | this repository, exclusions stripped | `3 errors`, all `pcc-r02-workflow-run-single-line` |
+| Negative | `bun.lock` removed | `pcc-r03-bun-lock` only |
+| Negative | `docs/concepts/rule-register.md` removed | `pcc-r04-rule-register` only |
+| Negative | multi-line `run:` in `ci.yml` | `pcc-r02-workflow-run-single-line` only |
+| Negative | SHA pin replaced with `actions/checkout@v7` | `pcc-r05-pin-actions-to-sha` only |
+| Negative | `permissions: contents: read` removed from `ci.yml` | `pcc-r05-workflow-contents-read` only |
+
+`PCC-R06` needs a note. Alint's tree walk honours `.gitignore`, and every path this rule names (`.env`, `.DS_Store`, `dist/**`, `build/**`, `.venv/**`) is gitignored in the Archont561 layout, so the rule stays quiet on a clean checkout and fires only when a consumer leaves those paths unignored. The same tree reports three findings under `--no-gitignore`, which proves the rule and the paths are sound. `git_tracked_only: true` is not a workaround: it did not fire on force-added paths in this build and raises an analysis failure outside a Git repository. The preset therefore keeps the walk-based default, and [`docs/concepts/engine-limits.md`](../../docs/concepts/engine-limits.md) records the boundary.
+<!-- SECTION:VERIFICATION:END -->
 
 ## Final Summary
 
