@@ -20,7 +20,7 @@ All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Pyth
 
 ## Go and Java coverage
 
-None of the twenty-four public `Archont561` repositories is written in Go or Java; the primary languages are Python, TypeScript, Rust, and Astro. The Pedantic ast-grep project therefore extends two canonical IDs that already have first-party evidence rather than inventing thresholds: `PCC-S01` gains `pcc-s01-print-go` and `pcc-s01-print-java`, and `PCC-S07` gains `pcc-s07-empty-catch-java`. Both mirror the shipped Python, TypeScript, and Rust rules, and both are measured on a synthetic corpus before release. A consumer-level repository in either language would supply the first real false-positive baseline; until then the claim is parity, not measured prevalence.
+None of the twenty-four public `Archont561` repositories is written in Go or Java; the primary languages are Python, TypeScript, Rust, and Astro. The Pedantic ast-grep project therefore extends two canonical IDs that already have first-party evidence rather than inventing thresholds: `PCC-S01` gains `pcc-s01-print-go` and `pcc-s01-print-java`, and `PCC-S07` gains `pcc-s07-empty-catch-java`. Both mirror the shipped Python, TypeScript, and Rust rules, and both are measured against a corpus that now ships at `presets/ast-grep/pedantic/examples`: `doit examples` compiles the Go module and the Java sources with the toolchains pinned in `pixi.toml`, then asserts that the rules report exactly the expected findings. A consumer-level repository in either language would supply the first real false-positive baseline; until then the claim is parity, not measured prevalence.
 
 ## Rude Clean Code precedent
 

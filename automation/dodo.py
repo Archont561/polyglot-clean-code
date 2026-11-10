@@ -9,10 +9,12 @@ from __future__ import annotations
 
 import gzip
 import hashlib
+import json
 import os
 import subprocess
 import tarfile
 import tomllib
+from collections import Counter
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
@@ -31,6 +33,15 @@ PRESETS = ("recommended", "strict", "pedantic")
 RELEASE_ARCHIVES = ("alint", "vale", "ast-grep", "semgrep")
 
 PRESETS_ROOT = ROOT / "presets"
+
+EXAMPLES = PRESETS_ROOT / "ast-grep" / "pedantic" / "examples"
+
+# `doit examples` compiles the corpus and asserts these exact counts.
+EXPECTED_EXAMPLE_FINDINGS = {
+    "pcc-s01-print-go": 2,
+    "pcc-s01-print-java": 3,
+    "pcc-s07-empty-catch-java": 1,
+}
 
 # The lint covers every tracked Python file, because Rude has no path-exclusion
 # option. The Semgrep fixtures are excluded by pathspec: they are deliberately
@@ -80,11 +91,12 @@ def _run(
     cwd: Path = ROOT,
     check: bool = True,
     capture: bool = False,
+    extra_env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         list(args),
         cwd=cwd,
-        env=_env(),
+        env=_env(extra_env),
         check=check,
         text=True,
         capture_output=capture,
@@ -194,6 +206,42 @@ def lint_python() -> None:
         return
     command = ["rude", "check", "--max-line-length", PYTHON_LINE_LENGTH]
     _run([*command, *files])
+
+
+def build_go_examples() -> None:
+    """Compile the Go example corpus with a build cache in the ignored dist tree."""
+    cache = ROOT / "dist" / "go"
+    _run(
+        ["go", "build", "./..."],
+        cwd=EXAMPLES / "go",
+        extra_env={"GOCACHE": str(cache / "cache"), "GOPATH": str(cache / "path")},
+    )
+    print("Go examples compiled.")
+
+
+def build_java_examples() -> None:
+    """Compile the Java example corpus into the ignored dist tree."""
+    classes = ROOT / "dist" / "java-classes"
+    classes.mkdir(parents=True, exist_ok=True)
+    sources = sorted(str(path) for path in (EXAMPLES / "java").rglob("*.java"))
+    _run(["javac", "-d", str(classes), *sources])
+    print("Java examples compiled.")
+
+
+def check_example_findings() -> None:
+    """Assert the Pedantic Go and Java rules find exactly the expected examples."""
+    config = str(PRESETS_ROOT / "ast-grep" / "pedantic" / "sgconfig.yml")
+    scan = _run(
+        ["ast-grep", "scan", "-c", config, "--json", str(EXAMPLES)],
+        capture=True,
+        check=False,
+    )
+    found = dict(Counter(item["ruleId"] for item in json.loads(scan.stdout or "[]")))
+    if found != EXPECTED_EXAMPLE_FINDINGS:
+        raise RuntimeError(
+            f"Expected {EXPECTED_EXAMPLE_FINDINGS}, found {found} in the example corpus"
+        )
+    print(f"Example corpus produced the expected findings: {found}")
 
 
 def workspace_version() -> str:
@@ -421,6 +469,14 @@ def task_lint_python() -> dict[str, Any]:
     return {"basename": "lint-python", "actions": [lint_python]}
 
 
+def task_examples() -> dict[str, Any]:
+    """Compile the Go and Java examples and assert the Pedantic findings."""
+    return {
+        "basename": "examples",
+        "actions": [build_go_examples, build_java_examples, check_example_findings],
+    }
+
+
 def task_install_hooks() -> dict[str, Any]:
     """Install or verify Lefthook hooks."""
     return {"basename": "install-hooks", "actions": [install_hooks]}
@@ -462,6 +518,7 @@ def task_policy() -> dict[str, Any]:
             "ast-grep-test",
             "semgrep-validate",
             "backlog",
+            "examples",
         ],
         "actions": None,
     }
