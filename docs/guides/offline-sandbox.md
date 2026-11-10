@@ -53,7 +53,7 @@ git show origin/sandbox/developer-linux-64:.pixi-sandbox/manifest.json \
   | jq '{platform, source, blobs: (.envs.default.blobs | length), tools: (.tools | keys)}'
 ```
 
-A published branch for this repository reports schema 5, `linux-64`, 126 blobs, 223.5 MiB packed against 871.3 MiB unpacked, and a largest blob of 48.2 MiB against the 95 MiB default. Those numbers are the review baseline: a jump in them is a dependency change worth naming in the pull request.
+A published branch for this repository reports schema 5, `linux-64`, 165 blobs, 477.2 MiB packed against 1530.6 MiB unpacked, and a largest blob of 177.8 MiB against the 95 MiB default. Those numbers are the review baseline: a jump in them is a dependency change worth naming in the pull request. The current baseline already carries one such jump: the Go and Java toolchains took the transport from 223.5 MiB to 477.2 MiB packed, and the largest blob is now the OpenJDK package rather than Semgrep.
 
 ## Reviewing a relock commit
 
