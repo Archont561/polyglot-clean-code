@@ -29,6 +29,10 @@ Doc-2 extends this into a detection contract for `CC001`–`CC910`: deterministi
 | ast-grep | Tree-sitter structural patterns with `valid`/`invalid` cases | It matches syntax shapes but does not count lines, locals, returns, methods, nesting depth, or branches across scopes |
 | Semgrep | Patterns, regexes, metadata, and some dataflow/taint analysis | It can find a construct or a flow, but it does not expose a project-wide complexity metric or a class/method inventory |
 
+## Ignored paths
+
+Alint's tree walk honours `.gitignore`, and no rule-level switch reads the tracked set reliably: in alint 0.22.0, `git_tracked_only: true` raised an analysis failure outside a Git repository and did not fire on force-added paths. `pcc-r06-no-tracked-artifacts` therefore reports `.env`, `.DS_Store`, `dist/`, `build/`, and `.venv/` only when a consumer leaves those paths unignored. `alint check --no-gitignore` shows the findings that the ignore file hides.
+
 A pattern such as "an empty `except` block" is a structural match. A diagnostic such as "`CC101`: this function is 47 lines, the limit is 30, split it" needs a parser that can define a function boundary, count physical or logical lines, and report a number. None of the four native configs provides that measurement layer.
 
 ## What this repository does instead
