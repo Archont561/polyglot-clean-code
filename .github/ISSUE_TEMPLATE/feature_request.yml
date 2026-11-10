@@ -1,0 +1,15 @@
+name: Rule proposal
+description: Propose a new cross-tool rule with evidence and paired examples.
+body:
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Archont561 evidence
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Positive and negative examples
+    validations:
+      required: true
