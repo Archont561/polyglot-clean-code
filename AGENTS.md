@@ -1,0 +1,26 @@
+# Agent instructions
+
+Use the locked Pixi environment for every check. Do not install tools into the checkout with ad hoc commands.
+
+## Source of truth
+
+- `backlog/tasks/` owns the rule register: three To Do preset tasks plus PCC-10 and PCC-12.
+- Native configs under `presets/{alint,vale,ast-grep,semgrep}/` are curated. Review them with the matching backlog task.
+- `automation/dodo.py` owns every task. Add a `task_*` function there instead of adding shell snippets to workflows.
+- `README.md` is hand-maintained. There is no template, no generator, and no `check-readme` task.
+- `docs/` holds maintained documentation. Vale checks prose, markdownlint-cli2 checks Markdown structure, and Alint checks repository and documentation structure.
+- No `presets/catalogue.yml`, no `automation/contracts.py`, and no Python test tree exist.
+
+## Required loop
+
+1. Read the PCC task and its acceptance criteria.
+2. Change the native config and the backlog task together.
+3. Run `pixi run --locked doit ci`.
+4. Record verification and a final summary in the task.
+5. Use a Convco-compatible commit message with a scope from `.versionrc`.
+
+## Native rule boundaries
+
+Alint checks repository shape and config values. Vale checks prose. ast-grep checks syntax trees. Semgrep checks patterns and regexes. Do not ask one engine to fake another engine's scope; see [`docs/concepts/engine-limits.md`](docs/concepts/engine-limits.md).
+
+Start the dev loop with `PCC-16` after the remote is updated.
