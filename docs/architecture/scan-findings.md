@@ -16,7 +16,7 @@ The GitHub REST API listed 20 public repositories on 2026-11-10. Eight repositor
 | Generated state is excluded | `.gitignore`, Ruff exclusions, `codecov.yml`, and `clean_code_budget.json` gates | `PCC-R06` and `PCC-R07` enforce hygiene and paired tests |
 | Commit vocabulary is explicit | `.versionrc` with scope regex and hidden internal types | `PCC-R08` checks Convco types and Backlog.md statuses |
 
-All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Python-heavy repositories contain `.alint.yml`, `.vale.ini`, `.versionrc`, and `codecov.yml`. TypeScript and Rust leaning repositories drop Python lint files but keep Pixi, hooks, agent instructions, and feature tests. The Recommended and Strict Alint presets no longer encode the original skills-lock checks, because skills and the Python test tree are no longer part of the scaffold; the Pedantic preset keeps them until PCC-18 lands.
+All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Python-heavy repositories contain `.alint.yml`, `.vale.ini`, `.versionrc`, and `codecov.yml`. TypeScript and Rust leaning repositories drop Python lint files but keep Pixi, hooks, agent instructions, and feature tests. No Alint preset encodes the original skills-lock checks, because skills and the Python test tree are no longer part of the scaffold.
 
 ## Rude Clean Code precedent
 
