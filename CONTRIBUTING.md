@@ -27,7 +27,7 @@ pixi-sandbox init
 pixi-sandbox init --check
 ```
 
-`publish-sandbox.yml`, `relock.yml`, and `restore.sh` belong to the generator. A direct edit is drift, and the next `init` overwrites it. See [`docs/guides/offline-sandbox.md`](docs/guides/offline-sandbox.md).
+`publish-sandbox.yml`, `relock.yml`, and `scripts/restore.sh` belong to the generator. A direct edit is drift, and the next `init` overwrites it. See [`docs/guides/offline-sandbox.md`](docs/guides/offline-sandbox.md).
 
 ## Commit messages
 

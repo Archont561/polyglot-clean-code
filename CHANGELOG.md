@@ -4,6 +4,9 @@ All notable changes to polyglot-clean-code are documented here.
 
 ## Unreleased
 
+- Moved the generated airlock launcher to `scripts/restore.sh` and pointed the publisher's generator input at the new path.
+- Added the Go and Java toolchains to the Pixi environment and a compiled example corpus under `presets/ast-grep/pedantic/examples`, wired into `doit examples` so the Pedantic findings are asserted on every CI run.
+
 - Extended `PCC-S01` to Go and Java and `PCC-S07` to Java: `pcc-s01-print-go`, `pcc-s01-print-java`, and `pcc-s07-empty-catch-java` ship in the Pedantic ast-grep project with paired `valid`/`invalid` cases.
 - Measured the new rules on a synthetic corpus: six expected findings on the deliberately flawed files, zero findings on the idiomatic `slog` and slf4j files.
 - Added `rude` and `rude-clean-code` to the Pixi environment and wired `doit lint-python` into the policy chain, so every tracked Python file is checked against the Clean Code limits at a line width of 88, with the deliberately invalid Semgrep fixtures excluded by pathspec.

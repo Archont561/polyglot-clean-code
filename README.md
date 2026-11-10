@@ -65,11 +65,11 @@ pixi run --locked doit ci
 
 ## Offline sandbox
 
-`pixi-sandbox.toml` reviews the publish plan and the three generated files act on it: `.github/workflows/publish-sandbox.yml` packs the locked environment, verifies the transport, and pushes the `sandbox/developer-linux-64` orphan branch; `.github/workflows/relock.yml` refreshes `pixi.lock` for a manifest edit made without network access; and `restore.sh` restores the branch on an airlocked host. The bundle covers `linux-64` and the `default` environment.
+`pixi-sandbox.toml` reviews the publish plan and the three generated files act on it: `.github/workflows/publish-sandbox.yml` packs the locked environment, verifies the transport, and pushes the `sandbox/developer-linux-64` orphan branch; `.github/workflows/relock.yml` refreshes `pixi.lock` for a manifest edit made without network access; and `scripts/restore.sh` restores the branch on an airlocked host. The bundle covers `linux-64` and the `default` environment.
 
 ```sh
 gh workflow run publish-sandbox.yml --ref main
-bash restore.sh
+bash scripts/restore.sh
 pixi install --frozen --offline
 ```
 
