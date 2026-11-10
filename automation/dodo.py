@@ -221,9 +221,9 @@ def build_java_examples() -> None:
     print("Java examples compiled.")
 
 
-def check_example_findings() -> None:
-    """Compare every scan finding with the marker on its starting source line."""
-    expected = Counter()
+def expected_example_findings() -> Counter[tuple[str, int, str]]:
+    """Collect the expected diagnostic locations from source comments."""
+    expected: Counter[tuple[str, int, str]] = Counter()
     for extension in ("*.go", "*.java"):
         for path in EXAMPLES.rglob(extension):
             lines = path.read_text(encoding="utf-8").splitlines()
@@ -233,6 +233,11 @@ def check_example_findings() -> None:
                     expected[(str(path), number, rule)] += 1
     if not expected:
         raise RuntimeError("The example corpus has no expected-finding markers")
+    return expected
+
+
+def scan_example_findings() -> Counter[tuple[str, int, str]]:
+    """Run the Pedantic scan and collect diagnostic locations."""
     config = str(PRESETS_ROOT / "ast-grep" / "pedantic" / "sgconfig.yml")
     scan = _run(
         ["ast-grep", "scan", "-c", config, "--json", str(EXAMPLES)],
@@ -245,8 +250,10 @@ def check_example_findings() -> None:
     try:
         findings = json.loads(scan.stdout)
     except json.JSONDecodeError as error:
-        raise RuntimeError(f"Example scan produced invalid JSON: {scan.stderr}") from error
-    found = Counter(
+        raise RuntimeError(
+            f"Example scan produced invalid JSON: {scan.stderr}"
+        ) from error
+    return Counter(
         (
             str(Path(item["file"]).resolve()),
             item["range"]["start"]["line"] + 1,
@@ -254,6 +261,12 @@ def check_example_findings() -> None:
         )
         for item in findings
     )
+
+
+def check_example_findings() -> None:
+    """Compare every scan finding with the marker on its starting source line."""
+    expected = expected_example_findings()
+    found = scan_example_findings()
     if found != expected:
         raise RuntimeError(
             f"Example findings differ: missing={dict(expected - found)}, "
