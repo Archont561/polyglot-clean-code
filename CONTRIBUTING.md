@@ -31,7 +31,7 @@ pixi-sandbox init --check
 
 ## Commit messages
 
-Convco accepts `feat`, `fix`, `perf`, `docs`, and `revert` as visible types. Internal types are hidden from the changelog. Use one of the scopes in `.versionrc`: `rules`, `presets`, `config`, `ci`, `deps`, `docs`, `tests`, `release`, or `automation`.
+Convco accepts `feat`, `fix`, `perf`, `docs`, and `revert` as visible types. Internal types are hidden from the changelog. Use one of the scopes in `.versionrc`: `rules`, `presets`, `config`, `ci`, `deps`, `docs`, `lock`, `tests`, `release`, or `automation`. `lock` belongs to the generated relock bot.
 
 ```text
 feat(rules): add an immutable-reference rule

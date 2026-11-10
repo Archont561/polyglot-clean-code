@@ -3,7 +3,8 @@ header: |
   # Changelog
 
   All notable changes to polyglot-clean-code are documented here.
-scopeRegex: '^(rules|presets|config|ci|deps|docs|tests|release|automation)$'
+# `lock` is owned by the generated relock bot (pixi-sandbox[bot]).
+scopeRegex: '^(rules|presets|config|ci|deps|docs|lock|tests|release|automation)$'
 types:
   - {type: feat, section: Features, hidden: false}
   - {type: fix, section: Fixes, hidden: false}
