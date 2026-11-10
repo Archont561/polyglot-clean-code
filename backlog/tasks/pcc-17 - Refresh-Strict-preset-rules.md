@@ -1,10 +1,10 @@
 ---
 id: PCC-17
 title: Refresh Strict preset rules
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-10 18:30'
-updated_date: '2026-11-10 19:40'
+updated_date: '2026-11-10 19:55'
 labels: []
 dependencies: [PCC-16]
 priority: medium
@@ -24,7 +24,7 @@ Continue the dev loop after PCC-16 is Done. This task holds the 10 canonical rul
 - [x] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
 - [x] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
 - [x] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
-- [ ] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
+- [x] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -156,5 +156,15 @@ Every Strict rule keeps its `[PCC-...]` prefix. Deterministic IDs (`PCC-R05`, `P
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence and the final summary when the work is complete.
+The audit confirmed the ten Strict IDs: every message keeps its `[PCC-...]` prefix, the seven deterministic IDs sit at `error` or `ERROR`, and the three heuristic IDs stay advisory. `PCC-D03` is `warning` in Vale, `PCC-S05` and `PCC-P06` are `warning` in ast-grep, and the preset ships no heuristic Semgrep rule. No severity changed.
+
+The real defect was inheritance. Strict duplicates the six `PCC-R01`–`PCC-R04` rules from Recommended at `error` level, and it still carried the retired skills-lock checks, the `docs/reference/rules.md` path, and an unbounded single-line workflow rule. Because Strict fails on `error`, this repository's own scaffold tripped its own preset five times. The refresh dropped the two skills-lock rules, renamed `pcc-r04-rule-reference` to `pcc-r04-rule-register` with the `docs/concepts/rule-register.md` path, aligned the `PCC-R03` and `PCC-R04` messages with PCC-16, and excluded the two Pixi Sandbox workflows from `pcc-r02-workflow-run-single-line`. Strict is 21 rules instead of 23.
+
+Evidence: this repository passes the refreshed preset 21 of 21 and failed the pre-refresh copy with 5 errors in the three stale places. Stripping the two exclusions from the refreshed copy brings back 3 single-line errors on the generated workflows. Negative probes fired one rule each for a missing `bun.lock`, a missing register, a multi-line `ci.yml` step, a mutable action tag, and removed workflow permissions.
+
+`PCC-R06` is sound but quiet: Alint honours `.gitignore`, and the paths it names are gitignored in this layout, so the rule reports only unignored artifacts. The same tree reports three findings under `--no-gitignore`. `git_tracked_only: true` is not a workaround, so the preset keeps the walk-based default and the boundary is recorded in `docs/concepts/engine-limits.md`.
+
+`pixi run --locked doit ci` ran in CI on PR #6, run [42883214243](https://github.com/Archont561/polyglot-clean-code/actions/runs/42883214243): the `doit ci` and Conventional Commit steps both succeeded. The local substitutes were `alint check . -c presets/alint/strict.yml` (21 of 21), `alint check . -c .alint.yml --fail-on-warning` (22 of 22), `alint validate-config` on all three presets, and `markdownlint-cli2` over the changed Markdown.
+
+Pedantic still carries the historical checks and owns the last refresh in PCC-18.
 <!-- SECTION:FINAL_SUMMARY:END -->
