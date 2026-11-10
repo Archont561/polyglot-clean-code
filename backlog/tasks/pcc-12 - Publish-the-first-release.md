@@ -1,10 +1,10 @@
 ---
 id: PCC-12
 title: Publish the first release
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-10 14:30'
-updated_date: '2026-11-10 21:05'
+updated_date: '2026-11-10 21:20'
 labels: []
 dependencies: []
 priority: low
@@ -21,9 +21,9 @@ Publish the first release as part of the reusable Clean Code preset distribution
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Verify the tag against pixi.toml.
-- [ ] #2 Render the Convco changelog.
-- [ ] #3 Attach the preset archives to the release.
+- [x] #1 Verify the tag against pixi.toml.
+- [x] #2 Render the Convco changelog.
+- [x] #3 Attach the preset archives to the release.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -61,5 +61,25 @@ The publish job is the only place in this repository with `contents: write`, and
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence when the work is complete.
+The first release is published: [`v0.1.0`](https://github.com/Archont561/polyglot-clean-code/releases/tag/v0.1.0) on the `main` merge commit `411099d`. The tag is annotated and points at the merge of PR #8.
+
+Acceptance criteria:
+
+1. The tag matches `pixi.toml`. `doit build-release` compares `v0.1.0` with `[workspace] version = "0.1.0"`, and the same function rejects `v0.2.0` with `Tag 'v0.2.0' does not match workspace version '0.1.0'`.
+2. The Convco changelog is rendered. The release workflow ran `pixi run --locked doit build-release`, which wrote the Convco output to `dist/release-notes.md`, and that file became the release body: 2014 characters with a `## v0.1.0 (2026-11-10)` section and per-commit links.
+3. The preset archives are attached. The release carries four tarballs and the checksum file:
+
+| Asset | Size | SHA-256 |
+| --- | --- | --- |
+| `polyglot-clean-code-presets-alint-0.1.0.tar.gz` | 1919 B | `b76a7fad…ebd7a` |
+| `polyglot-clean-code-presets-vale-0.1.0.tar.gz` | 2283 B | `cfba1b39…28c25` |
+| `polyglot-clean-code-presets-ast-grep-0.1.0.tar.gz` | 3975 B | `ec50b6e5…0e07` |
+| `polyglot-clean-code-presets-semgrep-0.1.0.tar.gz` | 3087 B | `c0f0187a…78caa` |
+| `SHA256SUMS-0.1.0.txt` | 456 B | — |
+
+The published digests, read back through the GitHub API, are identical to a local `doit presets-archive` run, so the archives are reproducible byte for byte and a consumer can verify a download against `SHA256SUMS-0.1.0.txt`.
+
+Workflow evidence: release run [42885452582](https://github.com/Archont561/polyglot-clean-code/actions/runs/42885452582) on tag `v0.1.0`. The `Validate tag and changelog` job passed in 26 seconds, including `doit build-release` and `doit ci`; the `Publish release assets` job passed in 23 seconds, including `doit build-release` and `gh release create`. The publishing job is the only writer in the repository, and its `contents: write` is job-scoped so the workflow-level `contents: read` stays intact.
+
+Consumer adoption now has a stable pin: [`docs/guides/adopting-presets.md`](../../docs/guides/adopting-presets.md) names `v0.1.0` as the tag selector and the release assets as the download path for a consumer that does not use a submodule. The procedure lives in [`docs/guides/running-the-checks.md`](../../docs/guides/running-the-checks.md). With PCC-12 Done, PCC-10 is the remaining open task.
 <!-- SECTION:FINAL_SUMMARY:END -->
