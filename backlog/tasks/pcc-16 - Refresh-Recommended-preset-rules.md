@@ -1,10 +1,10 @@
 ---
 id: PCC-16
 title: Refresh Recommended preset rules
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-10 18:30'
-updated_date: '2026-11-10 19:05'
+updated_date: '2026-11-10 19:25'
 labels: []
 dependencies: []
 priority: high
@@ -24,7 +24,7 @@ Start the dev loop here after the remote is updated. This task holds the 11 cano
 - [x] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
 - [x] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
 - [x] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
-- [ ] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
+- [x] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -186,5 +186,18 @@ This repository passes the refreshed preset unchanged (`✓ All 16 rule(s) passe
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence and the final summary when the work is complete.
+The audit found the dialects sound and the Alint Recommended preset stale. Every canonical ID keeps its `[PCC-...]` prefix; Vale keeps `error` for `PCC-D01` and `warning` for `PCC-D02`; ast-grep keeps `warning` for `PCC-S01` and `error` for `PCC-S02`; Semgrep keeps `ERROR` plus `metadata.pcc_confidence: critical` and `metadata.pcc_canonical_severity: error` for `PCC-P01`–`PCC-P03`. No severity changed.
+
+`presets/alint/recommended.yml` now holds 16 rules instead of 18:
+
+- `pcc-r03-skills-lock` and `pcc-r03-skills-lock-version` are gone. The scaffold ships no `skills-lock.json`, so both names only produced false positives on a current harness; the root `.alint.yml` had already dropped them.
+- `pcc-r04-rule-reference` became `pcc-r04-rule-register` and now requires `docs/concepts/rule-register.md`, the register of record. The old target, `docs/reference/rules.md`, no longer exists.
+- The `PCC-R03` and `PCC-R04` messages match the root dogfood config word for word.
+- `pcc-r02-workflow-run-single-line` excludes `.github/workflows/publish-sandbox.yml` and `.github/workflows/relock.yml`, which `pixi-sandbox init` generates with a checksum-verified bootstrap step. Hand-maintained workflows stay in scope.
+
+Evidence: the preset passed 16 of 16 against a stand-in Archont561 harness (`✓ All 16 rule(s) passed.`, exit 0) and reported the two retired names as warnings with the pre-refresh copy (exit 1). Removing `bun.lock`, `docs/concepts/rule-register.md`, `pixi.lock`, or single-lining the multi-line `ci.yml` step fired exactly one rule each. In this repository the refreshed preset passes 16 of 16 with no findings.
+
+`pixi run --locked doit ci` ran in CI on PR #5, run [42877724088](https://github.com/Archont561/polyglot-clean-code/actions/runs/42877724088): steps `Run pixi run --locked doit ci` and `Check incoming Conventional Commits` succeeded. The local substitutes for the same checks were `alint check . -c .alint.yml --fail-on-warning` (22 of 22), `alint check . -c presets/alint/recommended.yml` (16 of 16), `markdownlint-cli2` over `CHANGELOG.md`, `docs/`, and `backlog/`, and a YAML parse of all 72 files under `presets/`.
+
+Out of scope on purpose: `presets/alint/strict.yml` and `presets/alint/pedantic.yml` still carry `pcc-r03-skills-lock`, `pcc-r03-skills-lock-version`, and `pcc-r04-rule-reference`, and Pedantic still checks `automation/fixtures/` paths. PCC-17 and PCC-18 depend on this task and own those configs, so their refreshes close the remaining gap. The adoption guide and the repository layout note now say so.
 <!-- SECTION:FINAL_SUMMARY:END -->
