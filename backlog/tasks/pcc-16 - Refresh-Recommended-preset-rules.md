@@ -1,10 +1,10 @@
 ---
 id: PCC-16
 title: Refresh Recommended preset rules
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-11-10 18:30'
-updated_date: '2026-11-10 18:30'
+updated_date: '2026-11-10 19:25'
 labels: []
 dependencies: []
 priority: high
@@ -21,10 +21,10 @@ Start the dev loop here after the remote is updated. This task holds the 11 cano
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
-- [ ] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
-- [ ] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
-- [ ] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
+- [x] #1 Review every listed `PCC-*` ID against its native config under `presets/`.
+- [x] #2 Confirm the `[PCC-...]` message prefix, confidence, and native severity for each rule.
+- [x] #3 Update the native config and this task in the same change; keep paired positive and negative examples.
+- [x] #4 Run `pixi run --locked doit ci` and record the verification evidence here.
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -39,8 +39,8 @@ Work one ID at a time. Read the rule details below, open the matching native con
 | --- | --- | --- | --- | --- |
 | `PCC-R01` | alint | Locked Pixi environment | critical | pcc-r01-pixi-manifest, pcc-r01-pixi-lock |
 | `PCC-R02` | alint | One automation registry | deterministic | pcc-r02-dodo-file, pcc-r02-doit-config, pcc-r02-workflow-run-single-line |
-| `PCC-R03` | alint | Pinned developer CLIs and commit policy | deterministic | pcc-r03-package-manifest, pcc-r03-bun-lock, pcc-r03-skills-lock, pcc-r03-hooks, pcc-r03-convco, pcc-r03-skills-lock-version, pcc-r03-bun-package-manager |
-| `PCC-R04` | alint | Documentation and agent entrypoints | deterministic | pcc-r04-readme, pcc-r04-agents, pcc-r04-contributing, pcc-r04-docs-index, pcc-r04-development-guide, pcc-r04-rule-reference |
+| `PCC-R03` | alint | Pinned developer CLIs and commit policy | deterministic | pcc-r03-package-manifest, pcc-r03-bun-lock, pcc-r03-hooks, pcc-r03-convco, pcc-r03-bun-package-manager |
+| `PCC-R04` | alint | Documentation and agent entrypoints | deterministic | pcc-r04-readme, pcc-r04-agents, pcc-r04-contributing, pcc-r04-docs-index, pcc-r04-development-guide, pcc-r04-rule-register |
 | `PCC-D01` | vale | Canonical product and tool names | critical | pcc-d01-canonical-terms |
 | `PCC-D02` | vale | One space after sentence punctuation | deterministic | pcc-d02-punctuation-spacing |
 | `PCC-S01` | ast-grep | Structured logging instead of debug prints in library code | deterministic | pcc-s01-print-python, pcc-s01-console-log-ts, pcc-s01-println-rust |
@@ -66,26 +66,30 @@ Work one ID at a time. Read the rule details below, open the matching native con
 - Positive: `dodo.py, doit.cfg and a one-line workflow run step are present`
 - Negative: `workflow embeds logic in a multiline run block`
 - Implementations: `pcc-r02-dodo-file` (file_exists), `pcc-r02-doit-config` (file_exists), `pcc-r02-workflow-run-single-line` (yaml_path_matches)
+- Scope note: the single-line rule excludes `.github/workflows/publish-sandbox.yml` and `.github/workflows/relock.yml`, which `pixi-sandbox init` generates with a checksum-verified bootstrap step. Hand-maintained workflows stay in scope.
 
 ### `PCC-R03` — Pinned developer CLIs and commit policy
 
-- Message: `[PCC-R03] Pin Bun developer CLIs, agent skills, hooks and Conventional Commit configuration.`
-- Source: `rude-clean-code/package.json, bun.lock, skills-lock.json, lefthook.yml and .versionrc`
-- Positive: `package.json, bun.lock, skills-lock.json, lefthook.yml and .versionrc are present`
-- Negative: `skills-lock.json is absent`
-- Implementations: `pcc-r03-package-manifest` (file_exists), `pcc-r03-bun-lock` (file_exists), `pcc-r03-skills-lock` (file_exists), `pcc-r03-hooks` (file_exists), `pcc-r03-convco` (file_exists), `pcc-r03-skills-lock-version` (json_path_equals), `pcc-r03-bun-package-manager` (json_path_matches)
+- Message: `[PCC-R03] Pin Bun developer CLIs, hooks and Conventional Commit configuration.`
+- Source: `rude-clean-code/package.json, bun.lock, lefthook.yml and .versionrc`
+- Positive: `package.json, bun.lock, lefthook.yml and .versionrc are present`
+- Negative: `bun.lock is absent`
+- Implementations: `pcc-r03-package-manifest` (file_exists), `pcc-r03-bun-lock` (file_exists), `pcc-r03-hooks` (file_exists), `pcc-r03-convco` (file_exists), `pcc-r03-bun-package-manager` (json_path_matches)
+- Retired: `pcc-r03-skills-lock` and `pcc-r03-skills-lock-version` checked `skills-lock.json`, which the current scaffold does not ship. The root `.alint.yml` had already dropped them; this refresh makes the shipped preset agree with the scaffold it documents.
 
 ### `PCC-R04` — Documentation and agent entrypoints
 
-- Message: `[PCC-R04] Maintain README, AGENTS, contributing guidance and a documentation index.`
+- Message: `[PCC-R04] Maintain README, AGENTS, contributing guidance, a documentation index, and a rule register.`
 - Source: `rude-clean-code/docs tree, AGENTS.md, CONTRIBUTING.md; qgis-sdk and artifactspec docs trees`
-- Positive: `README.md, AGENTS.md, CONTRIBUTING.md and docs/README.md are present`
-- Negative: `docs/README.md is missing`
-- Implementations: `pcc-r04-readme` (file_exists), `pcc-r04-agents` (file_exists), `pcc-r04-contributing` (file_exists), `pcc-r04-docs-index` (file_exists), `pcc-r04-development-guide` (file_exists), `pcc-r04-rule-reference` (file_exists)
+- Positive: `README.md, AGENTS.md, CONTRIBUTING.md, docs/README.md and docs/concepts/rule-register.md are present`
+- Negative: `docs/concepts/rule-register.md is missing`
+- Implementations: `pcc-r04-readme` (file_exists), `pcc-r04-agents` (file_exists), `pcc-r04-contributing` (file_exists), `pcc-r04-docs-index` (file_exists), `pcc-r04-development-guide` (file_exists), `pcc-r04-rule-register` (file_exists)
+- Renamed: `pcc-r04-rule-reference` required `docs/reference/rules.md`, which no longer exists. The register of record is `docs/concepts/rule-register.md`, and the renamed rule matches the root `.alint.yml` ID and message.
 
 ### `PCC-D01` — Canonical product and tool names
 
 - Message: `[PCC-D01] Use the canonical tool or product name instead of an alias.`
+- Native message template: `Use '%s' instead of '%s'.`
 - Source: `rude-clean-code/.vale/styles/Project/Terms.yml and accept.txt`
 - Positive: `Use Pixi, Bun, ast-grep, Semgrep, Vale and Alint.`
 - Negative: `Use github actions, astgrep and semgrep.`
@@ -94,9 +98,10 @@ Work one ID at a time. Read the rule details below, open the matching native con
 ### `PCC-D02` — One space after sentence punctuation
 
 - Message: `[PCC-D02] Use exactly one space after sentence punctuation.`
+- Native message template: `'%s' should have one space.`
 - Source: `rude-clean-code/.vale/styles/Microsoft/Spacing.yml`
 - Positive: `One sentence. Another sentence.`
-- Negative: `One sentence. Another sentence.`
+- Negative: `One sentence.  Another sentence.`
 - Implementations: `pcc-d02-punctuation-spacing`
 
 ### `PCC-S01` — Structured logging instead of debug prints in library code
@@ -139,8 +144,60 @@ Work one ID at a time. Read the rule details below, open the matching native con
 - Negative: `subprocess.run('git status', shell=True)`
 - Implementations: `pcc-p03-shell-true-python`
 
+## Verification
+
+<!-- SECTION:VERIFICATION:BEGIN -->
+Every canonical ID keeps its `[PCC-...]` message prefix. The native levels match the severity ladder in [`docs/reference/rule-matrix.md`](../../docs/reference/rule-matrix.md): Critical is `error` in every engine, Deterministic is `warning` in Alint and `error` in ast-grep and Semgrep, and the Vale pair keeps `error` and `warning` as recorded below.
+
+| Canonical ID | Confidence | Native rule | Native level | Prefix |
+| --- | --- | --- | --- | --- |
+| `PCC-R01` | critical | `pcc-r01-pixi-manifest`, `pcc-r01-pixi-lock` | `error` | present |
+| `PCC-R02` | deterministic | `pcc-r02-dodo-file`, `pcc-r02-doit-config`, `pcc-r02-workflow-run-single-line` | `warning` | present |
+| `PCC-R03` | deterministic | five rules, see details | `warning` | present |
+| `PCC-R04` | deterministic | six rules, see details | `warning` | present |
+| `PCC-D01` | critical | `pcc-d01-canonical-terms` | `error` | present |
+| `PCC-D02` | deterministic | `pcc-d02-punctuation-spacing` | `warning` | present |
+| `PCC-S01` | deterministic | `pcc-s01-print-python`, `pcc-s01-console-log-ts`, `pcc-s01-println-rust` | `warning` | present |
+| `PCC-S02` | critical | `pcc-s02-unsafe-rust` | `error` | present |
+| `PCC-P01` | critical | `pcc-p01-swallowed-exception-python` | `ERROR` | present |
+| `PCC-P02` | critical | `pcc-p02-unsafe-dynamic-python` | `ERROR` | present |
+| `PCC-P03` | critical | `pcc-p03-shell-true-python` | `ERROR` | present |
+
+The three Semgrep rules also carry `metadata.pcc_confidence: critical` and `metadata.pcc_canonical_severity: error`, which agree with the `[PCC-P0x]` prefix.
+
+### Alint behaviour
+
+The preset was exercised against a stand-in Archont561 harness that commits `pixi.toml`, `pixi.lock`, `automation/dodo.py`, `doit.cfg`, `package.json`, `bun.lock`, `lefthook.yml`, `.versionrc`, `README.md`, `AGENTS.md`, `CONTRIBUTING.md`, `docs/README.md`, `docs/guides/development-setup.md`, `docs/concepts/rule-register.md`, and a one-line `ci.yml`.
+
+| Run | Config | Result |
+| --- | --- | --- |
+| Positive | refreshed `presets/alint/recommended.yml` | `✓ All 16 rule(s) passed.`, exit 0 |
+| Positive | pre-refresh preset from `2410d25` | `2 warnings`, exit 1: `pcc-r03-skills-lock`, `pcc-r04-rule-reference` |
+| Negative | `bun.lock` removed | `pcc-r03-bun-lock` warning only |
+| Negative | `docs/concepts/rule-register.md` removed | `pcc-r04-rule-register` warning only |
+| Negative | `pixi.lock` removed | `pcc-r01-pixi-lock` error only |
+| Negative | multi-line `run:` in `ci.yml` | `pcc-r02-workflow-run-single-line` warning only |
+
+The pre-refresh run is the false-positive evidence: both retired names fire on a harness that has no skills lock. The refreshed preset reports the same harness clean and still fires each surviving rule when its target is removed.
+
+This repository passes the refreshed preset unchanged (`✓ All 16 rule(s) passed.`), which also confirms that the two generated Pixi Sandbox workflows are excluded from the single-line rule while hand-maintained workflows remain in scope.
+<!-- SECTION:VERIFICATION:END -->
+
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Open. Record verification evidence and the final summary when the work is complete.
+The audit found the dialects sound and the Alint Recommended preset stale. Every canonical ID keeps its `[PCC-...]` prefix; Vale keeps `error` for `PCC-D01` and `warning` for `PCC-D02`; ast-grep keeps `warning` for `PCC-S01` and `error` for `PCC-S02`; Semgrep keeps `ERROR` plus `metadata.pcc_confidence: critical` and `metadata.pcc_canonical_severity: error` for `PCC-P01`–`PCC-P03`. No severity changed.
+
+`presets/alint/recommended.yml` now holds 16 rules instead of 18:
+
+- `pcc-r03-skills-lock` and `pcc-r03-skills-lock-version` are gone. The scaffold ships no `skills-lock.json`, so both names only produced false positives on a current harness; the root `.alint.yml` had already dropped them.
+- `pcc-r04-rule-reference` became `pcc-r04-rule-register` and now requires `docs/concepts/rule-register.md`, the register of record. The old target, `docs/reference/rules.md`, no longer exists.
+- The `PCC-R03` and `PCC-R04` messages match the root dogfood config word for word.
+- `pcc-r02-workflow-run-single-line` excludes `.github/workflows/publish-sandbox.yml` and `.github/workflows/relock.yml`, which `pixi-sandbox init` generates with a checksum-verified bootstrap step. Hand-maintained workflows stay in scope.
+
+Evidence: the preset passed 16 of 16 against a stand-in Archont561 harness (`✓ All 16 rule(s) passed.`, exit 0) and reported the two retired names as warnings with the pre-refresh copy (exit 1). Removing `bun.lock`, `docs/concepts/rule-register.md`, `pixi.lock`, or single-lining the multi-line `ci.yml` step fired exactly one rule each. In this repository the refreshed preset passes 16 of 16 with no findings.
+
+`pixi run --locked doit ci` ran in CI on PR #5, run [42877724088](https://github.com/Archont561/polyglot-clean-code/actions/runs/42877724088): steps `Run pixi run --locked doit ci` and `Check incoming Conventional Commits` succeeded. The local substitutes for the same checks were `alint check . -c .alint.yml --fail-on-warning` (22 of 22), `alint check . -c presets/alint/recommended.yml` (16 of 16), `markdownlint-cli2` over `CHANGELOG.md`, `docs/`, and `backlog/`, and a YAML parse of all 72 files under `presets/`.
+
+Out of scope on purpose: `presets/alint/strict.yml` and `presets/alint/pedantic.yml` still carry `pcc-r03-skills-lock`, `pcc-r03-skills-lock-version`, and `pcc-r04-rule-reference`, and Pedantic still checks `automation/fixtures/` paths. PCC-17 and PCC-18 depend on this task and own those configs, so their refreshes close the remaining gap. The adoption guide and the repository layout note now say so.
 <!-- SECTION:FINAL_SUMMARY:END -->
