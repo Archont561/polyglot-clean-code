@@ -10,13 +10,13 @@ The GitHub REST API listed 20 public repositories on 2026-11-10. Eight repositor
 | --- | --- | --- |
 | Pixi is the environment of record | `pixi.toml`, `pixi.lock`, and `[activation.env] PYTHONPATH` in Python and Rust repositories | `PCC-R01` requires the manifest and lock together |
 | doit is the single task registry | `automation/dodo.py` and `doit.cfg` in `rude-clean-code`; root `dodo.py` in PyShellForge | `PCC-R02` requires the registry and one-line workflow `run` steps |
-| Developer CLIs are pinned | `package.json`, `bun.lock`, `skills-lock.json`, `lefthook.yml`, and `.versionrc` | `PCC-R03` requires pinned Bun, skills, hooks, and Convco state |
+| Developer CLIs are pinned | `package.json`, `bun.lock`, `skills-lock.json`, `lefthook.yml`, and `.versionrc` | `PCC-R03` requires pinned Bun, hooks, and Convco state |
 | Documentation is a maintained tree | `AGENTS.md`, `docs/guides/`, `docs/reference/`, `docs/architecture/`, `docs/development/`, and Backlog.md documents | `PCC-R04` requires entrypoints; Vale rules guard terminology and prose |
 | CI has a narrow trust boundary | `permissions: contents: read`, SHA-pinned actions, `persist-credentials: false`, and one-line steps | `PCC-R05` checks workflow values and issue forms |
 | Generated state is excluded | `.gitignore`, Ruff exclusions, `codecov.yml`, and `clean_code_budget.json` gates | `PCC-R06` and `PCC-R07` enforce hygiene and paired tests |
 | Commit vocabulary is explicit | `.versionrc` with scope regex and hidden internal types | `PCC-R08` checks Convco types and Backlog.md statuses |
 
-All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Python-heavy repositories contain `.alint.yml`, `.vale.ini`, `.versionrc`, and `codecov.yml`. TypeScript and Rust leaning repositories drop Python lint files but keep Pixi, hooks, agent instructions, and feature tests. The shipped Alint presets still encode the original skills-lock checks; the fresh root `.alint.yml` in this repository does not, because skills and the Python test tree are no longer part of the scaffold.
+All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Python-heavy repositories contain `.alint.yml`, `.vale.ini`, `.versionrc`, and `codecov.yml`. TypeScript and Rust leaning repositories drop Python lint files but keep Pixi, hooks, agent instructions, and feature tests. The Recommended Alint preset no longer encodes the original skills-lock checks, because skills and the Python test tree are no longer part of the scaffold; the Strict and Pedantic presets keep them until their own refreshes.
 
 ## Rude Clean Code precedent
 

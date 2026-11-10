@@ -89,7 +89,7 @@ Keep each preset tree intact: Vale resolves `StylesPath` relative to the `.ini` 
 
 ## Alint in an arbitrary repository
 
-Alint is the repository-shape engine. `PCC-R01`–`PCC-R04` require the Archont561 harness: `pixi.toml`, `pixi.lock`, `automation/dodo.py`, `doit.cfg`, `package.json`, `bun.lock`, `lefthook.yml`, `.versionrc`, and the documentation entrypoints. The shipped Alint presets also check `skills-lock.json`; the fresh root config in this repository does not. A fresh consumer that runs `alint check . -c "$PRESETS/alint/recommended.yml"` will report those missing files before any code rule runs.
+Alint is the repository-shape engine. `PCC-R01`–`PCC-R04` require the Archont561 harness: `pixi.toml`, `pixi.lock`, `automation/dodo.py`, `doit.cfg`, `package.json`, `bun.lock`, `lefthook.yml`, `.versionrc`, `docs/concepts/rule-register.md`, and the other documentation entrypoints. A fresh consumer that runs `alint check . -c "$PRESETS/alint/recommended.yml"` without those files will report each missing path before any code rule runs. Alint Recommended no longer checks `skills-lock.json`; the Strict and Pedantic presets keep that check until their own refreshes land.
 
 Choose one of three paths:
 
@@ -97,7 +97,7 @@ Choose one of three paths:
 2. Keep a hand-authored local Alint config outside `vendor/clean-code-presets` with only the rules that apply to the consumer. Leave the vendored preset untouched.
 3. Defer Alint. Vale, ast-grep, and Semgrep work in an arbitrary repository without the harness.
 
-The shipped Alint presets also retain historical checks for `docs/reference/rules.md` and `automation/fixtures/` paths. They are product rules for a full Archont561 harness, not checks on this repository's fresh scaffold. The root `.alint.yml` checks `docs/concepts/rule-register.md` and the three backlog tasks instead. Do not lower severity inside the vendored preset to make the first run pass. See [`docs/concepts/engine-limits.md`](../concepts/engine-limits.md) for the boundary between repository shape and source metrics.
+The Strict and Pedantic presets retain historical checks for `docs/reference/rules.md` and `automation/fixtures/` paths, and Alint Recommended now checks `docs/concepts/rule-register.md`. These are product rules for a full Archont561 harness, not checks on this repository's fresh scaffold; the root `.alint.yml` checks the register and the three backlog tasks instead. Do not lower severity inside the vendored preset to make the first run pass. See [`docs/concepts/engine-limits.md`](../concepts/engine-limits.md) for the boundary between repository shape and source metrics.
 
 ## Staged rollout
 
