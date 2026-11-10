@@ -8,6 +8,8 @@ All notable changes to polyglot-clean-code are documented here.
 - Scoped the single-line workflow rule to the hand-maintained workflows so generated Pixi Sandbox files stay byte-identical to the generator's output.
 - Documented sandbox publishing, restore, and regeneration in `docs/guides/offline-sandbox.md`.
 
+- Fixed the generated publisher cache flag: the rendered workflow now carries `setup_pixi_cache = false` from `pixi-sandbox.toml`, so `setup-pixi` no longer rejects `run-install: false` with `cache: true`.
+
 ## 0.1.0
 
 - Added 30 curated canonical rules across Alint, Vale, ast-grep, and Semgrep.
