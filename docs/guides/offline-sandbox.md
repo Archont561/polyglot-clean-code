@@ -42,6 +42,12 @@ pixi run --frozen doit ci
 
 The launcher reads the branch from `pixi-sandbox.toml`, fetches only the `sandbox/*` namespace when the branch is missing, verifies the transport against its manifest, and registers the packed tools for the current user. Set `PIXI_SANDBOX_FETCH=skip` when the branch is already in the clone, and `PIXI_SANDBOX_USER_TOOLS=skip` on a shared host that must not touch the user `PATH`.
 
+## Reviewing a relock commit
+
+When `pixi lock --check` fails on a pull request, `relock.yml` solves the environment with the Pixi version the generator pins, commits the refreshed `pixi.lock` as `pixi-sandbox[bot]`, and dispatches the guard, `ci.yml`, and the publisher on the repaired commit. A re-solve takes the newest build each constraint allows, so the commit can carry version bumps beside the lock refresh. Review it the way you review any dependency update.
+
+One hand-off cannot finish before the merge: a pull request that introduces `publish-sandbox.yml` finds no such workflow on the default branch, so the dispatch and its verdict report a failure until the publisher exists on `main`. Merging the lane is what makes that verdict runnable.
+
 ## Limits
 
 - The bundle targets `linux-64` only, because that is the platform list in `pixi.toml`.
