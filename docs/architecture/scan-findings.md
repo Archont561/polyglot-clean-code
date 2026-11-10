@@ -18,6 +18,10 @@ The GitHub REST API listed 20 public repositories on 2026-11-10. Eight repositor
 
 All eight deep clones contain `pixi.lock`, `lefthook.yml`, and `AGENTS.md`. Python-heavy repositories contain `.alint.yml`, `.vale.ini`, `.versionrc`, and `codecov.yml`. TypeScript and Rust leaning repositories drop Python lint files but keep Pixi, hooks, agent instructions, and feature tests. No Alint preset encodes the original skills-lock checks, because skills and the Python test tree are no longer part of the scaffold.
 
+## Go and Java coverage
+
+None of the twenty-four public `Archont561` repositories is written in Go or Java; the primary languages are Python, TypeScript, Rust, and Astro. The Pedantic ast-grep project therefore extends two canonical IDs that already have first-party evidence rather than inventing thresholds: `PCC-S01` gains `pcc-s01-print-go` and `pcc-s01-print-java`, and `PCC-S07` gains `pcc-s07-empty-catch-java`. Both mirror the shipped Python, TypeScript, and Rust rules, and both are measured on a synthetic corpus before release. A consumer-level repository in either language would supply the first real false-positive baseline; until then the claim is parity, not measured prevalence.
+
 ## Rude Clean Code precedent
 
 The implemented plugin has nine deterministic rules:

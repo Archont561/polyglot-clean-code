@@ -2,6 +2,12 @@
 
 All notable changes to polyglot-clean-code are documented here.
 
+## Unreleased
+
+- Extended `PCC-S01` to Go and Java and `PCC-S07` to Java: `pcc-s01-print-go`, `pcc-s01-print-java`, and `pcc-s07-empty-catch-java` ship in the Pedantic ast-grep project with paired `valid`/`invalid` cases.
+- Measured the new rules on a synthetic corpus: six expected findings on the deliberately flawed files, zero findings on the idiomatic `slog` and slf4j files.
+- Added `rude` and `rude-clean-code` to the Pixi environment and wired `doit lint-python` into the policy chain, so every tracked Python file is checked against the Clean Code limits at a line width of 88, with the deliberately invalid Semgrep fixtures excluded by pathspec.
+
 ## 0.1.0
 
 - Added 30 curated canonical rules across Alint, Vale, ast-grep, and Semgrep.
@@ -24,4 +30,3 @@ All notable changes to polyglot-clean-code are documented here.
 - Added `doit presets-archive`, which packs every preset tree into a byte-reproducible tarball beside a `SHA256SUMS-0.1.0.txt` file.
 - Added a release publish job that attaches the preset archives, the checksum file, and the rendered Convco changelog to the GitHub Release for a `v*` tag.
 - Published the first release as `v0.1.0`.
-- Added `rude` and `rude-clean-code` to the Pixi environment and wired `doit lint-python` into the policy chain, so every tracked Python file is checked against the Clean Code limits at a line width of 88, with the deliberately invalid Semgrep fixtures excluded by pathspec.
