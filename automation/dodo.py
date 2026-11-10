@@ -7,8 +7,11 @@ product is the native config under `presets/`.
 
 from __future__ import annotations
 
+import gzip
+import hashlib
 import os
 import subprocess
+import tarfile
 import tomllib
 from collections.abc import Sequence
 from pathlib import Path
@@ -24,6 +27,8 @@ DOIT_CONFIG: dict[str, Any] = {
 }
 
 PRESETS = ("recommended", "strict", "pedantic")
+
+RELEASE_ARCHIVES = ("alint", "vale", "ast-grep", "semgrep")
 
 VALE_TARGETS = (
     "README.md",
@@ -162,10 +167,50 @@ def check_commit_messages(base: str = "", head: str = "") -> None:
     _run(["convco", "check", f"{resolved_base}..{head}"])
 
 
-def build_release(ref_name: str = "") -> None:
-    """Check an optional release tag and validate Convco changelog output."""
+def workspace_version() -> str:
+    """Return the version declared in `pixi.toml`."""
     manifest = tomllib.loads((ROOT / "pixi.toml").read_text(encoding="utf-8"))
-    version = manifest["workspace"]["version"]
+    return str(manifest["workspace"]["version"])
+
+
+def build_preset_archives() -> None:
+    """Pack every preset tree into a reproducible archive beside a checksum file."""
+    version = workspace_version()
+    dist = ROOT / "dist"
+    dist.mkdir(exist_ok=True)
+    archives: list[Path] = []
+    for tool in RELEASE_ARCHIVES:
+        target = dist / f"polyglot-clean-code-presets-{tool}-{version}.tar.gz"
+        source = ROOT / "presets" / tool
+        with gzip.GzipFile(str(target), "wb", mtime=0) as stream:
+            with tarfile.open(fileobj=stream, mode="w", format=tarfile.PAX_FORMAT) as archive:
+                for path in sorted(source.rglob("*")):
+                    info = archive.gettarinfo(
+                        str(path), arcname=str(path.relative_to(ROOT / "presets"))
+                    )
+                    info.uid = 0
+                    info.gid = 0
+                    info.uname = ""
+                    info.gname = ""
+                    info.mtime = 0
+                    if info.isfile():
+                        with path.open("rb") as handle:
+                            archive.addfile(info, handle)
+                    else:
+                        archive.addfile(info)
+        archives.append(target)
+    lines = [
+        f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}"
+        for path in archives
+    ]
+    checksums = dist / f"SHA256SUMS-{version}.txt"
+    checksums.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"Packed {len(archives)} preset archives and wrote {checksums.name}.")
+
+
+def build_release(ref_name: str = "") -> None:
+    """Check an optional release tag and render the Convco changelog."""
+    version = workspace_version()
     if ref_name and ref_name.removeprefix("v") != version:
         raise RuntimeError(
             f"Tag {ref_name!r} does not match workspace version {version!r}"
@@ -173,7 +218,10 @@ def build_release(ref_name: str = "") -> None:
     changelog = _run(["convco", "changelog"], capture=True)
     if not changelog.stdout.strip():
         raise RuntimeError("convco changelog produced no output")
-    print(f"Release validation passed for version {version}.")
+    notes = ROOT / "dist" / "release-notes.md"
+    notes.parent.mkdir(exist_ok=True)
+    notes.write_text(changelog.stdout, encoding="utf-8")
+    print(f"Release validation passed for version {version}; notes at dist/{notes.name}.")
 
 
 def install_hooks() -> None:
@@ -288,10 +336,16 @@ def task_check_commit_messages() -> dict[str, Any]:
     }
 
 
+def task_presets_archive() -> dict[str, Any]:
+    """Pack the preset trees into reproducible release archives."""
+    return {"basename": "presets-archive", "actions": [build_preset_archives]}
+
+
 def task_build_release() -> dict[str, Any]:
-    """Validate a release tag and Convco changelog output."""
+    """Validate a release tag, render the changelog, and pack the presets."""
     return {
         "basename": "build-release",
+        "task_dep": ["presets-archive"],
         "params": [
             {
                 "name": "ref_name",
