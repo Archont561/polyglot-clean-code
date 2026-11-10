@@ -32,11 +32,12 @@ RELEASE_ARCHIVES = ("alint", "vale", "ast-grep", "semgrep")
 
 PRESETS_ROOT = ROOT / "presets"
 
-# The Semgrep fixtures are deliberately invalid targets for the shipped rules, so the
-# Python lint scopes to the hand-written automation code instead of the whole tree. The
-# width is passed here because this repository ships no `pyproject.toml`; `.gitignore`
-# keeps Python project metadata out on purpose.
-PYTHON_TARGETS = ("automation",)
+# The lint covers every tracked Python file, because Rude has no path-exclusion
+# option. The Semgrep fixtures are excluded by pathspec: they are deliberately
+# invalid targets for the shipped rules. The width is passed on the command line
+# because this repository ships no `pyproject.toml`; `.gitignore` keeps Python
+# project metadata out on purpose.
+PYTHON_EXCLUDES = ("presets/semgrep/fixtures",)
 PYTHON_LINE_LENGTH = "88"
 
 VALE_TARGETS = (
@@ -176,6 +177,23 @@ def check_commit_messages(base: str = "", head: str = "") -> None:
         print("No complete commit range available; skipping the Convco range check.")
         return
     _run(["convco", "check", f"{resolved_base}..{head}"])
+
+
+def tracked_python_files() -> list[str]:
+    """List tracked Python files, minus the deliberately invalid Semgrep fixtures."""
+    pathspecs = ["*.py", *(f":(exclude){prefix}/**" for prefix in PYTHON_EXCLUDES)]
+    listing = _run(["git", "ls-files", *pathspecs], capture=True).stdout
+    return listing.split()
+
+
+def lint_python() -> None:
+    """Run Rude over every tracked Python file."""
+    files = tracked_python_files()
+    if not files:
+        print("No tracked Python files to lint.")
+        return
+    command = ["rude", "check", "--max-line-length", PYTHON_LINE_LENGTH]
+    _run([*command, *files])
 
 
 def workspace_version() -> str:
@@ -399,12 +417,8 @@ def task_build_release() -> dict[str, Any]:
 
 
 def task_lint_python() -> dict[str, Any]:
-    """Lint the automation code with Rude and the Clean Code plugin."""
-    command = ["rude", "check", "--max-line-length", PYTHON_LINE_LENGTH]
-    return {
-        "basename": "lint-python",
-        "actions": [[*command, *PYTHON_TARGETS]],
-    }
+    """Lint every tracked Python file with Rude and the Clean Code plugin."""
+    return {"basename": "lint-python", "actions": [lint_python]}
 
 
 def task_install_hooks() -> dict[str, Any]:
