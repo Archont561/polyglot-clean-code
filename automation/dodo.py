@@ -1,0 +1,368 @@
+"""Fresh task registry for polyglot-clean-code.
+
+This is the only file under `automation/`. It owns every local check, hook,
+and CI entrypoint. The rule register lives in `backlog/tasks/`; the shipped
+product is the native config under `presets/`.
+"""
+
+from __future__ import annotations
+
+import os
+import subprocess
+import tomllib
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+
+DOIT_CONFIG: dict[str, Any] = {
+    "default_tasks": ["ci"],
+    "verbosity": 2,
+    "backend": "sqlite3",
+    "dep_file": str(ROOT / ".doit.db"),
+}
+
+PRESETS = ("recommended", "strict", "pedantic")
+
+VALE_TARGETS = (
+    "README.md",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "presets/README.md",
+    "docs",
+)
+
+MARKDOWN_TARGETS = (
+    "README.md",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "presets/**/*.md",
+    "docs/**/*.md",
+    "backlog/**/*.md",
+)
+
+ZERO_SHA = "0" * 40
+
+
+def _env(extra: dict[str, str] | None = None) -> dict[str, str]:
+    env = os.environ.copy()
+    env.setdefault("SEMGREP_SEND_METRICS", "off")
+    env.setdefault("SEMGREP_ENABLE_VERSION_CHECK", "0")
+    env.setdefault("NO_COLOR", "1")
+    if extra:
+        env.update(extra)
+    return env
+
+
+def _run(
+    args: Sequence[str],
+    *,
+    cwd: Path = ROOT,
+    check: bool = True,
+    capture: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        list(args),
+        cwd=cwd,
+        env=_env(),
+        check=check,
+        text=True,
+        capture_output=capture,
+    )
+
+
+def _workflow_files() -> list[str]:
+    return sorted(
+        str(path.relative_to(ROOT))
+        for path in (ROOT / ".github/workflows").glob("*.yml")
+    )
+
+
+def _git_is_commit(ref: str) -> bool:
+    if not ref or not (ROOT / ".git").exists():
+        return False
+    return (
+        subprocess.run(
+            ["git", "cat-file", "-e", f"{ref}^{{commit}}"],
+            cwd=ROOT,
+            capture_output=True,
+            check=False,
+        ).returncode
+        == 0
+    )
+
+
+def _resolve_commit_base(base: str) -> str:
+    if base and base != ZERO_SHA:
+        return base
+    if _git_is_commit("HEAD^"):
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD^"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    if not (ROOT / ".git").exists():
+        return ""
+    result = subprocess.run(
+        ["git", "rev-list", "--max-parents=0", "HEAD"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    roots = result.stdout.splitlines()
+    return roots[0].strip() if roots else ""
+
+
+def validate_ast_grep_tests() -> None:
+    """Run native ast-grep valid/invalid tests for every preset."""
+    for preset in PRESETS:
+        _run(
+            ["ast-grep", "test", "--skip-snapshot-tests", "-c", "sgconfig.yml"],
+            cwd=ROOT / f"presets/ast-grep/{preset}",
+        )
+    print("ast-grep native rule tests passed for every preset.")
+
+
+def validate_semgrep_configs() -> None:
+    """Validate every composed Semgrep preset."""
+    for preset in PRESETS:
+        _run(
+            [
+                "semgrep",
+                "scan",
+                "--validate",
+                "--config",
+                f"presets/semgrep/{preset}.yml",
+                "--metrics=off",
+            ]
+        )
+    print("Semgrep preset configurations are valid.")
+
+
+def check_commit_messages(base: str = "", head: str = "") -> None:
+    """Validate a commit range with Convco when Git history exists."""
+    resolved_base = _resolve_commit_base(base)
+    if (
+        not head
+        or not _git_is_commit(head)
+        or not resolved_base
+        or not _git_is_commit(resolved_base)
+    ):
+        print("No complete commit range available; skipping the Convco range check.")
+        return
+    _run(["convco", "check", f"{resolved_base}..{head}"])
+
+
+def build_release(ref_name: str = "") -> None:
+    """Check an optional release tag and validate Convco changelog output."""
+    manifest = tomllib.loads((ROOT / "pixi.toml").read_text(encoding="utf-8"))
+    version = manifest["workspace"]["version"]
+    if ref_name and ref_name.removeprefix("v") != version:
+        raise RuntimeError(
+            f"Tag {ref_name!r} does not match workspace version {version!r}"
+        )
+    changelog = _run(["convco", "changelog"], capture=True)
+    if not changelog.stdout.strip():
+        raise RuntimeError("convco changelog produced no output")
+    print(f"Release validation passed for version {version}.")
+
+
+def install_hooks() -> None:
+    """Install or verify Lefthook hooks."""
+    check = _run(["lefthook", "check-install"], check=False, capture=True)
+    if check.returncode == 0:
+        print("Lefthook hooks are installed.")
+        return
+    _run(["lefthook", "install"])
+    _run(["lefthook", "check-install"])
+
+
+def task_bun_install() -> dict[str, Any]:
+    """Install frozen Bun developer CLIs."""
+    return {
+        "basename": "bun-install",
+        "actions": [["bun", "install", "--frozen-lockfile"]],
+    }
+
+
+def task_docs_lint() -> dict[str, Any]:
+    """Lint maintained Markdown with markdownlint-cli2."""
+    return {
+        "basename": "docs-lint",
+        "task_dep": ["bun-install"],
+        "actions": [
+            [
+                "bun",
+                "x",
+                "--bun",
+                "--no-install",
+                "markdownlint-cli2",
+                *MARKDOWN_TARGETS,
+            ]
+        ],
+    }
+
+
+def task_lint_prose() -> dict[str, Any]:
+    """Lint maintained Markdown prose with Vale."""
+    return {
+        "basename": "lint-prose",
+        "actions": [["vale", "--no-global", "--config=.vale.ini", *VALE_TARGETS]],
+    }
+
+
+def task_alint() -> dict[str, Any]:
+    """Dogfood the fresh root Alint repository policy."""
+    return {
+        "basename": "alint",
+        "actions": [["alint", "check", ".", "-c", ".alint.yml", "--fail-on-warning"]],
+    }
+
+
+def task_ast_grep_test() -> dict[str, Any]:
+    """Run native ast-grep rule tests for every preset."""
+    return {"basename": "ast-grep-test", "actions": [validate_ast_grep_tests]}
+
+
+def task_semgrep_validate() -> dict[str, Any]:
+    """Validate composed Semgrep configurations."""
+    return {"basename": "semgrep-validate", "actions": [validate_semgrep_configs]}
+
+
+def task_actionlint() -> dict[str, Any]:
+    """Lint GitHub Actions workflows."""
+    return {"basename": "actionlint", "actions": [["actionlint", *_workflow_files()]]}
+
+
+def task_backlog() -> dict[str, Any]:
+    """List Backlog.md tasks in a non-interactive format."""
+    return {
+        "basename": "backlog",
+        "task_dep": ["bun-install"],
+        "actions": [
+            ["bun", "x", "--bun", "--no-install", "backlog", "task", "list", "--plain"]
+        ],
+    }
+
+
+def task_lint_commit() -> dict[str, Any]:
+    """Validate one Conventional Commit message from stdin."""
+    return {
+        "basename": "lint-commit",
+        "actions": [["convco", "check", "--from-stdin", "--strip"]],
+    }
+
+
+def task_check_commit_messages() -> dict[str, Any]:
+    """Validate an incoming Convco commit range."""
+    return {
+        "basename": "check-commit-messages",
+        "params": [
+            {
+                "name": "base",
+                "long": "base",
+                "type": str,
+                "default": "",
+                "env_var": "COMMIT_BASE",
+                "help": "Base commit SHA.",
+            },
+            {
+                "name": "head",
+                "long": "head",
+                "type": str,
+                "default": "",
+                "env_var": "COMMIT_HEAD",
+                "help": "Head commit SHA.",
+            },
+        ],
+        "actions": [check_commit_messages],
+    }
+
+
+def task_build_release() -> dict[str, Any]:
+    """Validate a release tag and Convco changelog output."""
+    return {
+        "basename": "build-release",
+        "params": [
+            {
+                "name": "ref_name",
+                "long": "ref",
+                "type": str,
+                "default": "",
+                "env_var": "GITHUB_REF_NAME",
+                "help": "Git tag name, for example v0.1.0.",
+            }
+        ],
+        "actions": [build_release],
+    }
+
+
+def task_install_hooks() -> dict[str, Any]:
+    """Install or verify Lefthook hooks."""
+    return {"basename": "install-hooks", "actions": [install_hooks]}
+
+
+def task_test() -> dict[str, Any]:
+    """Run the fresh policy chain."""
+    return {"basename": "test", "task_dep": ["policy"], "actions": None}
+
+
+def task_pre_commit() -> dict[str, Any]:
+    """Run pre-commit checks."""
+    return {
+        "basename": "pre-commit",
+        "task_dep": [
+            "alint",
+            "lint-prose",
+            "docs-lint",
+            "actionlint",
+            "ast-grep-test",
+            "semgrep-validate",
+            "backlog",
+        ],
+        "actions": None,
+    }
+
+
+def task_policy() -> dict[str, Any]:
+    """Run the full local policy chain."""
+    return {
+        "basename": "policy",
+        "task_dep": [
+            "alint",
+            "lint-prose",
+            "docs-lint",
+            "actionlint",
+            "ast-grep-test",
+            "semgrep-validate",
+            "backlog",
+        ],
+        "actions": None,
+    }
+
+
+def task_docs() -> dict[str, Any]:
+    """Run documentation checks."""
+    return {
+        "basename": "docs",
+        "task_dep": ["docs-lint", "lint-prose"],
+        "actions": None,
+    }
+
+
+def task_ci() -> dict[str, Any]:
+    """Run the full local CI chain."""
+    return {
+        "basename": "ci",
+        "task_dep": ["policy", "docs", "check-commit-messages"],
+        "actions": None,
+    }

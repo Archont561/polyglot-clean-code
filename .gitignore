@@ -1,0 +1,35 @@
+# Generated environments and build outputs.
+.pixi/
+node_modules/
+dist/
+build/
+.venv/
+.env
+.DS_Store
+__pycache__/
+*.py[cod]
+.doit.db*
+
+# Fresh scaffold: no catalogue, no generator, no Python test tree.
+presets/catalogue.yml
+automation/contracts.py
+automation/readme.py
+automation/activate.py
+automation/semgrep_test.py
+automation/templates/
+automation/tests/
+automation/features/
+automation/fixtures/
+.agents/
+skills-lock.json
+pyproject.toml
+ruff.toml
+mypy.ini
+.coveragerc
+codecov.yml
+.coverage
+coverage.xml
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
