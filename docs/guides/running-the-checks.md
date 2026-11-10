@@ -12,6 +12,7 @@ All automation lives in `automation/dodo.py`. Run tasks through the locked Pixi 
 | `doit lint-python` | Run Rude with the Clean Code plugin over every tracked Python file |
 | `doit docs-lint` | Run markdownlint-cli2 |
 | `doit ast-grep-test` | Run native ast-grep rule tests for every preset |
+| `doit examples` | Compile the Go and Java corpus and assert the Pedantic findings |
 | `doit semgrep-validate` | Validate every Semgrep preset |
 | `doit actionlint` | Lint GitHub Actions workflows |
 | `doit backlog` | List Backlog.md tasks |

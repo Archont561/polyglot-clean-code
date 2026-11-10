@@ -237,7 +237,7 @@ jobs:
           --github-workflow-path .github/workflows/publish-sandbox.yml
           --relock-workflow-path .github/workflows/relock.yml
           --relock-ci-workflow ci.yml
-          --script-path restore.sh
+          --script-path scripts/restore.sh
           --config pixi-sandbox.toml
           --branch sandbox/developer-linux-64
           --artifact-dir "${{ runner.temp }}/pixi-sandbox-upgrade"
